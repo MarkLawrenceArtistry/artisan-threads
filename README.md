@@ -1,0 +1,2 @@
+
+"Artisan Threads" is a full-stack e-commerce web application designed for a small, curated online clothing store. The application will provide a complete shopping experience, from browsing products on a public-facing website to a secure checkout process for registered customers. It will also include a dedicated administrative dashboard for managing products, orders, and users.

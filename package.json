@@ -1,0 +1,23 @@
+{
+  "name": "artisan-threads",
+  "version": "1.0.0",
+  "description": "\"Artisan Threads\" is a full-stack e-commerce web application designed for a small, curated online clothing store. The application will provide a complete shopping experience, from browsing products on a public-facing website to a secure checkout process for registered customers. It will also include a dedicated administrative dashboard for managing products, orders, and users.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
