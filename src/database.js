@@ -112,4 +112,4 @@ const initDB = () => {
     })
 }
 
-module.exports = { initDB }
+module.exports = { db, initDB }
