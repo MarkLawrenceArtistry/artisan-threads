@@ -9,12 +9,14 @@ const createProduct = (req, res) => {
 
     const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
 
+    console.log('Generated Image URL:', imageUrl);
+
     const query = `
         INSERT INTO products (name, description, price, stock_quantity, image_url)
         VALUES (?, ?, ?, ?, ?)
     `
 
-    const params = [name, description, price, stock_quantity]
+    const params = [name, description, price, stock_quantity, imageUrl]
 
     db.run(query, params, function(err) {
         if(err) {

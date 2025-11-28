@@ -1,18 +1,22 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path')
 const { db, initDB } = require('./database.js')
 
 const app = express();
 const PORT = process.env.port || 3000;
 
+// Routes
 const authRoutes = require('./routes/auth.js')
+const productRoutes = require('./routes/products.js')
 
 // Middlewares
 app.use(express.json());
-app.use(express.static('../public'));
+app.use(express.static(path.join(__dirname, '../../public')));
 app.use(cors());
 
 app.use('/api/auth', authRoutes)
+app.use('/api/products', productRoutes)
 
 initDB();
 
@@ -22,5 +26,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`The port is listening at https://localhost:${PORT}`)
+    console.log(`The server is listening at https://localhost:${PORT}`)
 })
