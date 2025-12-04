@@ -58,7 +58,7 @@ const initDB = () => {
                 FOREIGN KEY (product_id) REFERENCES products(id)
             )
         `;
-
+        
         const cart_items = `
             CREATE TABLE cart_items (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
