@@ -14,8 +14,7 @@ const orderRoutes = require('./routes/orders.js')
 
 // Middlewares
 app.use(express.json());
-// app.use(express.static(path.join(__dirname, '../public')));
-app.use(express.static('../public'))
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(cors());
 
 app.use('/api/auth', authRoutes)
@@ -24,11 +23,6 @@ app.use('/api/cart_items', cartRoutes)
 app.use('/api/orders', orderRoutes)
 
 initDB();
-
-// Initial Routes
-app.get('/', (req, res) => {
-    res.status(200).json({success:true,data:"Welcome to my app"})
-});
 
 app.listen(PORT, () => {
     console.log(`The server is listening at https://localhost:${PORT}`)
