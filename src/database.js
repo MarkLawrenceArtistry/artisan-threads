@@ -16,7 +16,7 @@ const initDB = () => {
         })
 
         const users = `
-            CREATE TABLE users (
+            CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 email TEXT UNIQUE NOT NULL,
@@ -26,7 +26,7 @@ const initDB = () => {
         `;
         
         const products = `
-            CREATE TABLE products (
+            CREATE TABLE IF NOT EXISTS products (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 description TEXT,
@@ -37,7 +37,7 @@ const initDB = () => {
         `;
 
         const orders = `
-            CREATE TABLE orders (
+            CREATE TABLE IF NOT EXISTS orders (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 total_amount REAL NOT NULL,
@@ -48,7 +48,7 @@ const initDB = () => {
         `;
 
         const order_items = `
-            CREATE TABLE order_items (
+            CREATE TABLE IF NOT EXISTS order_items (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 order_id INTEGER NOT NULL,
                 product_id INTEGER NOT NULL,
@@ -60,7 +60,7 @@ const initDB = () => {
         `;
         
         const cart_items = `
-            CREATE TABLE cart_items (
+            CREATE TABLE IF NOT EXISTS cart_items (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 product_id INTEGER NOT NULL,
