@@ -60,7 +60,10 @@ const login = (req, res) => {
             }
 
             if(isMatch) {
-                return res.status(200).json({success:true,data:"Logged in successful."})
+                return res.status(200).json({success:true,data:{
+                    message:"Logged in successful",
+                    email: email
+                }})
             } else {
                 return res.status(400).json({success:false,data:"Invalid email or password."})
             }

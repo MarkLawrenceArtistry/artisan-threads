@@ -24,7 +24,7 @@
     justify-content: center;
 }
 
-#register-form {
+#register-form, #login-form {
     padding: 15px;
     width: 400px;
     height: 500px;
@@ -35,19 +35,19 @@
     justify-content: center;
 }
 
-#register-form label {
+#register-form label, #login-form label {
     display: block;
 }
 
-#register-form input {
+#register-form input, #login-form input {
     padding: 10px;
     width: 100%;
 }
 
-#register-form button {
+#register-form button, #login-form button {
     padding: 15px;
 }
 
-#register-form button, #register-form .form-item {
+#register-form button, #register-form .form-item, #login-form button, #login-form .form-item {
     width: 100%;
 }
