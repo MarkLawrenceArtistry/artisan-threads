@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// CONSTANTS
 	const registerForm = document.querySelector('#register-form')
 	const loginForm = document.querySelector('#login-form')
+    const logoutBtn = document.querySelector('#logout-button')
 	
 
 
@@ -67,7 +68,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			} 
 		})
 	}
+    
+    // (AUTH) LOGOUT
+    if(logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault()
 
+            if(confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser')
+                location.reload()
+            }
+        })
+    }
 
     // (AUTH) GATEKEEPER FUNCTION/SESSION CHECKER
     if(!(window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('login.html') || window.location.pathname.endsWith('register.html')) && !localStorage.getItem('currentUser')) {
