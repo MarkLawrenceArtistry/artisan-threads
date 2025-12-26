@@ -39,7 +39,7 @@ const login = (req, res) => {
     }
 
     const query = `
-        SELECT id, password_hash
+        SELECT *
         FROM users
         WHERE email = ?
     `
@@ -62,7 +62,8 @@ const login = (req, res) => {
             if(isMatch) {
                 return res.status(200).json({success:true,data:{
                     message:"Logged in successful",
-                    email: email
+                    email: email,
+                    role: user.role
                 }})
             } else {
                 return res.status(400).json({success:false,data:"Invalid email or password."})

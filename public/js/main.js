@@ -56,7 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
 				alert('Logged in successfully!')
 				
 				loginForm.reset()
-                location.href = 'dashboard.html'
+                if(data.role === "admin") {
+                    location.href = 'admin-dashboard.html';
+                } else {
+                    location.href = 'dashboard.html';
+                }
 			}
 			catch(err) {
 				console.error(err)

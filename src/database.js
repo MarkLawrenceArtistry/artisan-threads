@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3');
 const DB_SOURCE = 'database.db';
+const bcrypt = require('bcrypt');
 
 const db = new sqlite3.Database(DB_SOURCE, (err) => {
     if(err) {
@@ -108,6 +109,14 @@ const initDB = () => {
             } else {
                 console.log('cart_items TABLE CREATED SUCCESSFULLY/ALREADY EXISTS.')
             }
+        })
+
+        bcrypt.hash("Admin123!", 10, (err, hash) => {
+            db.run('INSERT OR IGNORE INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)', ["Mark Lawrence", "marklawrencecatubay@gmail.com", hash, "admin"], function(err) {
+                if(err) {
+                    return
+                }
+            })
         })
     })
 }
