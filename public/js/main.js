@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const loginForm = document.querySelector('#login-form')
     const logoutBtn = document.querySelector('#logout-button')
 	
+    const productsListDiv = document.querySelector('#products-list')
 
 
 
@@ -40,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			} 
 		})
 	}
-
     // (AUTH) LOGIN
     if(loginForm) {
 		loginForm.addEventListener('submit', async (e) => {
@@ -68,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			} 
 		})
 	}
-    
     // (AUTH) LOGOUT
     if(logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
@@ -80,10 +79,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
     }
-
     // (AUTH) GATEKEEPER FUNCTION/SESSION CHECKER
     if(!(window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('login.html') || window.location.pathname.endsWith('register.html')) && !localStorage.getItem('currentUser')) {
         alert('You must be logged in to view this page. Redirecting..')
         window.location.href = 'index.html'
+    }
+
+
+
+
+
+
+
+
+
+    // (PRODUCTS) GET ALL PRODUCTS
+    async function loadProducts() {
+        try {
+			const result = await api.getAllProducts()
+			render.renderProductsTable(result, productsListDiv)
+		} catch(err) {
+			console.error(err)
+		}
+    }
+    if(productsListDiv) {
+        loadProducts()
     }
 })
