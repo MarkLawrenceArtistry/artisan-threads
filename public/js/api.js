@@ -50,6 +50,22 @@ export async function getAllUsers() {
 
     return result.data
 }
+// (AUTH) Get user
+export async function getUser(id) {
+    const response = await fetch(`/api/auth/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}
 
 
 

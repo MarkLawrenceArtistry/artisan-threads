@@ -9,14 +9,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.querySelector('#logout-button')
 	
     const productsListDiv = document.querySelector('#products-list')
+    const usersListDiv = document.querySelector('#users-list')
+
+
+
+    // LOADERS
+    async function loadProducts() {
+        try {
+			const result = await api.getAllProducts()
+			render.renderProductsTable(result, productsListDiv)
+		} catch(err) {
+			console.error(err)
+		}
+    }
+    async function loadUsers() {
+        try {
+			const result = await api.getAllUsers()
+			render.renderUsersTable(result, usersListDiv)
+		} catch(err) {
+			console.error(err)
+		}
+    }
 
 
 
 
+    // (PRODUCTS) GET ALL PRODUCTS
+    if(productsListDiv) {
+        loadProducts()
+    }
 
 
 
 
+    // (AUTH) GET ALL USERS
+    if(usersListDiv) {
+        loadUsers()
+    }
     // (AUTH) REGISTER
 	if(registerForm) {
 		registerForm.addEventListener('submit', async (e) => {
@@ -83,26 +112,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!(window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('login.html') || window.location.pathname.endsWith('register.html')) && !localStorage.getItem('currentUser')) {
         alert('You must be logged in to view this page. Redirecting..')
         window.location.href = 'index.html'
-    }
-
-
-
-
-
-
-
-
-
-    // (PRODUCTS) GET ALL PRODUCTS
-    async function loadProducts() {
-        try {
-			const result = await api.getAllProducts()
-			render.renderProductsTable(result, productsListDiv)
-		} catch(err) {
-			console.error(err)
-		}
-    }
-    if(productsListDiv) {
-        loadProducts()
     }
 })

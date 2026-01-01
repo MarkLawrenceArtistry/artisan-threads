@@ -1,5 +1,6 @@
 const { db } = require('../database')
 const bcrypt = require('bcrypt')
+const { run, all, get } = require('../utils/helper')
 
 const register = (req, res) => {
     const { name, email, password, role } = req.body;
@@ -72,4 +73,33 @@ const login = (req, res) => {
     })
 }
 
-module.exports = { register, login }
+const getAllUsers = async (req, res) => {
+    try {
+        const rows = await all("SELECT name, email, role FROM users");
+
+        return res.status(200).json({success:true,data:rows})
+    } catch(err) {
+        return res.status(500).json({success:false,data:`Internal Server Error: ${err}`})
+    }
+}
+
+const getUser = async (req, res) => {
+    try {
+        const id = req.params
+
+        if(!id){
+            return res.status(400).json({success:false,data:"ID is required."})
+        }
+
+        const row = await get("SELECT name, email, role FROM users WHERE id = ?", [id])
+        if(!row) {
+            return res.status(404).json({success:false,data:"User not found."})
+        }
+
+        return res.status(200).json({success:true,data:row})
+    } catch(err) {
+
+    }
+}
+
+module.exports = { register, login, getAllUsers, getUser }
