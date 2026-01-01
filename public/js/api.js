@@ -66,6 +66,41 @@ export async function getUser(id) {
 
     return result.data
 }
+// (AUTH) Update user
+export async function updateUser(data, id) {
+    const response = await fetch(`/api/auth/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}
+// (AUTH) Delete user
+export async function deleteUser(id) {
+    const response = await fetch(`/api/auth/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}
+
+
 
 
 

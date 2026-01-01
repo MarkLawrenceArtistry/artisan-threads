@@ -137,7 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if(e.target.classList.contains('delete-btn')) {
-                return
+                if(confirm("Are you sure you want to delete this account?")) {
+                    try {
+                        await api.deleteUser(user_id)
+                        location.reload()
+                    } catch(err) {
+                        alert(`Error: ${err.message}`)
+                    }
+                }
             }
         })
     }

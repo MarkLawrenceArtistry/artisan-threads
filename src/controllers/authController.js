@@ -5,6 +5,10 @@ const { run, all, get } = require('../utils/helper')
 const register = (req, res) => {
     const { name, email, password, role } = req.body;
 
+    if(!name || !email || !password || !role) {
+        return res.status(400).json({success:false,data:"All fields are required."})
+    }
+
     bcrypt.hash(password, 10, (err, hash) => {
         if(err) {
             return res.status(500).json({success:false,data:`Error hashing password: ${err.message}`})
@@ -102,4 +106,43 @@ const getUser = async (req, res) => {
     }
 }
 
-module.exports = { register, login, getAllUsers, getUser }
+const updateUser = async (req, res) => {
+    try {
+        const { id } = req.params
+        let { name, email, password, role } = req.body
+
+        if(!password) {
+            password = null;
+        } else {
+            const salt = await bcrypt.genSalt(10);
+            password = await bcrypt.hash(password, salt);
+        }
+
+        await run(`
+            UPDATE users
+            SET
+                name = COALESCE(?, name),    
+                email = COALESCE(?, email),    
+                password_hash = COALESCE(?, password_hash),    
+                role = COALESCE(?, role)
+            WHERE id = ?
+        `, [name, email, password, role, id])
+
+        return res.status(201).json({success:true,data:`User: ${name} updated successfully!`})
+    } catch(err) {
+        return res.status(500).json({success:false,data:`Internal Server Error: ${err.message}`})
+    }
+}
+
+const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        await run("DELETE FROM users WHERE id = ?", [id])
+        return res.status(200).json({success:true,data:"Delete user successfully!"})
+    } catch(err) {
+        return res.status(500).json({success:false,data:`Internal Server Error: ${err.message}`})
+    }
+}
+
+module.exports = { register, login, getAllUsers, getUser, updateUser, deleteUser }
