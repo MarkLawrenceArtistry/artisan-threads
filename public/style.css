@@ -101,6 +101,6 @@
 
 
 
-#user-form {
+#user-form, #cancel-btn {
     display: none;
 }

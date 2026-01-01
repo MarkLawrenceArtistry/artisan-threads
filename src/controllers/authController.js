@@ -85,13 +85,13 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
     try {
-        const id = req.params
+        const { id } = req.params
 
         if(!id){
             return res.status(400).json({success:false,data:"ID is required."})
         }
 
-        const row = await get("SELECT name, email, role FROM users WHERE id = ?", [id])
+        const row = await get("SELECT id, name, email, role FROM users WHERE id = ?", [id])
         if(!row) {
             return res.status(404).json({success:false,data:"User not found."})
         }

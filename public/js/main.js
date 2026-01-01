@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const usersListDiv = document.querySelector('#users-list')
 
     const userForm = document.querySelector('#user-form')
+    const createUserBtn = document.querySelector('#create-btn')
+    const cancelUserBtn = document.querySelector('#cancel-btn')
 
 
 
@@ -68,9 +70,26 @@ document.addEventListener('DOMContentLoaded', () => {
 			} 
 		})
 	}
+    if(createUserBtn) {
+        createUserBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+            userForm.reset();
+            userForm.style.display = "block"
+            cancelUserBtn.style.display = "block"
+            userForm.querySelector('.form-title').innerText = "Create user"
+        })
+    }
+    if(cancelUserBtn) {
+        cancelUserBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+            userForm.reset();
+            userForm.style.display = "none"
+            cancelUserBtn.style.display = "none"
+        })
+    }
     // (AUTH) REGISTER admin/UPDATE
     if(userForm) {
-        userForm.addEventListener('submit', (e) => {
+        userForm.addEventListener('submit', async (e) => {
             e.preventDefault()
 
             const data = {
@@ -79,6 +98,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 password: userForm.querySelector('#user-password').value.trim() || null,
                 role: userForm.querySelector('#user-role').value.trim() || null
             }
+
+            const id = userForm.querySelector('#user-id').value
+            if(id) {
+                await api.updateUser(data, id)
+                alert("User updated successfully!")
+            } else {
+                await api.createAccount(data)
+                alert("User created successfully!")
+            }
+
+            location.reload()
         })
     }
     // (AUTH) TABLE EVENT LISTENER (UPDATE/DELETE)
@@ -94,9 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if(e.target.classList.contains('edit-btn')) {
                 userForm.reset();
                 userForm.style.display = "block"
+                cancelUserBtn.style.display = "block"
 
                 const user = await api.getUser(user_id)
-                userForm.querySelector('.form-title').value = "Update user"
+                userForm.querySelector('.form-title').innerText = "Update user"
 
                 userForm.querySelector('#user-id').value = user.id
                 userForm.querySelector('#user-name').value = user.name
