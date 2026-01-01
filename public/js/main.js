@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const productsListDiv = document.querySelector('#products-list')
     const usersListDiv = document.querySelector('#users-list')
 
+    const userForm = document.querySelector('#user-form')
+
 
 
     // LOADERS
@@ -42,11 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // (AUTH) GET ALL USERS
-    if(usersListDiv) {
-        loadUsers()
-    }
-    // (AUTH) REGISTER
+    // (AUTH) REGISTER publicly
 	if(registerForm) {
 		registerForm.addEventListener('submit', async (e) => {
 			e.preventDefault()
@@ -70,6 +68,48 @@ document.addEventListener('DOMContentLoaded', () => {
 			} 
 		})
 	}
+    // (AUTH) REGISTER admin/UPDATE
+    if(userForm) {
+        userForm.addEventListener('submit', (e) => {
+            e.preventDefault()
+
+            const data = {
+                name: userForm.querySelector('#user-name').value.trim() || null,
+                email: userForm.querySelector('#user-email').value.trim() || null, 
+                password: userForm.querySelector('#user-password').value.trim() || null,
+                role: userForm.querySelector('#user-role').value.trim() || null
+            }
+        })
+    }
+    // (AUTH) TABLE EVENT LISTENER (UPDATE/DELETE)
+    if(usersListDiv) {
+        loadUsers();
+
+        usersListDiv.addEventListener('click', async (e) => {
+            e.preventDefault()
+
+            const row = e.target.closest('tr')
+            const user_id = row.dataset.id
+
+            if(e.target.classList.contains('edit-btn')) {
+                userForm.reset();
+                userForm.style.display = "block"
+
+                const user = await api.getUser(user_id)
+                userForm.querySelector('.form-title').value = "Update user"
+
+                userForm.querySelector('#user-id').value = user.id
+                userForm.querySelector('#user-name').value = user.name
+                userForm.querySelector('#user-email').value = user.email
+                userForm.querySelector('#user-password').value = "";
+                userForm.querySelector('#user-role').value = user.role
+            }
+
+            if(e.target.classList.contains('delete-btn')) {
+                return
+            }
+        })
+    }
     // (AUTH) LOGIN
     if(loginForm) {
 		loginForm.addEventListener('submit', async (e) => {

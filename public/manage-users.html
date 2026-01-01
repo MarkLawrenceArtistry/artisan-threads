@@ -44,6 +44,34 @@
         <div class="content">
             <div class="content-header">
                 <h1>Manage Users</h1>
+
+                <div class="form-wrapper">
+                    <form id="user-form">
+                        <h3 class="form-title">Create user</h3>
+                        <input type="text" id="user-id" style="display: none;">
+                        <div class="form-item">
+                            <label>Name</label>
+                            <input type="text" id="user-name" placeholder="Enter your name...">
+                        </div>
+
+                        <div class="form-item">
+                            <label>Email</label>
+                            <input type="email" id="user-email" placeholder="Enter your email...">
+                        </div>
+
+                        <div class="form-item">
+                            <label>Password</label>
+                            <input type="password" id="user-password" placeholder="Enter your password...">
+                        </div>
+
+                        <div class="form-item">
+                            <label>Role</label>
+                            <input type="text" id="user-role" placeholder="Enter your role...">
+                        </div>
+
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
             </div>
 
             <div class="content-main">

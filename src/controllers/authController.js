@@ -75,7 +75,7 @@ const login = (req, res) => {
 
 const getAllUsers = async (req, res) => {
     try {
-        const rows = await all("SELECT name, email, role FROM users");
+        const rows = await all("SELECT id, name, email, role FROM users");
 
         return res.status(200).json({success:true,data:rows})
     } catch(err) {
@@ -98,7 +98,7 @@ const getUser = async (req, res) => {
 
         return res.status(200).json({success:true,data:row})
     } catch(err) {
-
+        return res.status(500).json({success:false,data:`Internal Server Error: ${err}`})
     }
 }
 

@@ -62,6 +62,7 @@ export function renderUsersTable(users, container) {
     table.innerHTML = `
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -78,6 +79,7 @@ export function renderUsersTable(users, container) {
         row.classname = 'user-item'
 
         row.innerHTML = `
+            <td>${element.id}</td>
             <td>${element.name}</td>
             <td>${element.email}</td>
             <td>${element.role}</td>
@@ -93,7 +95,7 @@ export function renderUsersTable(users, container) {
     });
     if(users.length < 1) {
         tbody.innerHTML = `
-            <td colspan="4" class="no-data" style="text-align:center;">There is no data here..</td>
+            <td colspan="5" class="no-data" style="text-align:center;">There is no data here..</td>
         `
     }
 
