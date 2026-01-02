@@ -120,3 +120,17 @@ export async function getAllProducts() {
 
     return result.data
 }
+// (PRODUCTS) Create product
+export async function createProduct(formData) {
+    const response = await fetch('/api/products/', {
+        method: 'POST',
+        body: formData
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}

@@ -44,6 +44,41 @@
         <div class="content">
             <div class="content-header">
                 <h1>Manage Products</h1>
+
+                <button id="create-product-btn">Create product</button>
+                <div class="form-wrapper">
+                    <form id="product-form">
+                        <h3 class="form-title">Create product</h3>
+                        <input type="text" id="product-id" style="display: none;">
+                        <div class="form-item">
+                            <label>Name</label>
+                            <input type="text" id="product-name" placeholder="Enter product name...">
+                        </div>
+
+                        <div class="form-item">
+                            <label>Description</label>
+                            <input type="text" id="product-description" placeholder="Enter product description...">
+                        </div>
+
+                        <div class="form-item">
+                            <label>Price</label>
+                            <input type="text" id="product-price" placeholder="Enter product price...">
+                        </div>
+
+                        <div class="form-item">
+                            <label>Current Stock</label>
+                            <input type="number" id="product-stock_quantity" placeholder="Enter product stock_quantity...">
+                        </div>
+
+                        <div class="form-item">
+                            <label>Product Image</label>
+                            <input type="file" id="product-image_url" accept="image/*" required>
+                        </div>
+
+                        <button type="submit">Submit</button>
+                        <button type="button" id="cancel-product-btn">Cancel</button>
+                    </form>
+                </div>
             </div>
 
             <div class="content-main">

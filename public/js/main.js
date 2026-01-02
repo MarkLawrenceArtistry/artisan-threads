@@ -9,8 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.querySelector('#logout-button')
 	
     const productsListDiv = document.querySelector('#products-list')
-    const usersListDiv = document.querySelector('#users-list')
+    const productForm = document.querySelector('#product-form')
+    const createProductBtn = document.querySelector('#create-product-btn')
+    const cancelProductBtn = document.querySelector('#cancel-product-btn')
 
+    const usersListDiv = document.querySelector('#users-list')
     const userForm = document.querySelector('#user-form')
     const createUserBtn = document.querySelector('#create-btn')
     const cancelUserBtn = document.querySelector('#cancel-btn')
@@ -41,6 +44,51 @@ document.addEventListener('DOMContentLoaded', () => {
     // (PRODUCTS) GET ALL PRODUCTS
     if(productsListDiv) {
         loadProducts()
+    }
+    if(productForm) {
+        productForm.addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            let formData = new FormData();
+
+            const fileInput = document.querySelector('#product-image_url')
+
+            // {{ key }}, {{ value }}
+            formData.append('name', document.querySelector('#product-name').value)
+            formData.append('description', document.querySelector('#product-description').value)
+            formData.append('price', document.querySelector('#product-price').value)
+            formData.append('stock_quantity', document.querySelector('#product-stock_quantity').value)
+
+            // chinicheck ng .files[0] yung first file na ininput sa input[type="file"] tag natin
+            if(fileInput.files[0]) {
+                formData.append('image', fileInput.files[0])
+            }
+
+            try {
+                await api.createProduct(formData)
+                alert('Product created successfully!')
+                location.reload()
+            } catch(err) {
+                alert(`Error: ${err.message}`)
+            }
+        })
+    }
+    if(createProductBtn) {
+        createProductBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+            productForm.reset();
+            productForm.style.display = "block"
+            cancelProductBtn.style.display = "block"
+            productForm.querySelector('.form-title').innerText = "Create user"
+        })
+    }
+    if(cancelProductBtn) {
+        cancelProductBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+            productForm.reset();
+            productForm.style.display = "none"
+            cancelProductBtn.style.display = "none"
+        })
     }
 
 

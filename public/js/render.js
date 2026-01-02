@@ -32,7 +32,9 @@ export function renderProductsTable(products, container) {
             <td>${element.description}</td>
             <td>${element.price}</td>
             <td>${element.stock_quantity}</td>
-            <td>${element.image_url}</td>
+            <td>
+                <img src=${element.image_url} style="height: 100px;">
+            </td>
             <td>
                 <div class="action-buttons">
                     <button class='btn edit-btn'>Edit</button>
