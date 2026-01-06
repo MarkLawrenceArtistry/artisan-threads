@@ -134,3 +134,49 @@ export async function createProduct(formData) {
 
     return result.data
 }
+// (PRODUCTS) Get product
+export async function getProduct(id) {
+    const response = await fetch(`/api/products/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}
+// (PRODUCTS) Delete product
+export async function deleteProduct(id) {
+    const response = await fetch(`/api/products/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}
+// (AUTH) Update user
+export async function updateProduct(data, id) {
+    const response = await fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        body: data
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}

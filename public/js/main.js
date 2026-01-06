@@ -43,7 +43,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // (PRODUCTS) GET ALL PRODUCTS
     if(productsListDiv) {
-        loadProducts()
+        loadProducts();
+
+        productsListDiv.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            const row = e.target.closest('tr')
+            const product_id = row.dataset.id
+
+            if(e.target.classList.contains('edit-btn')) {
+                productForm.reset();
+                productForm.style.display = "block"
+                cancelProductBtn.style.display = "block"
+                productForm.querySelector('#product-image').style.display = "block"
+
+                const product = await api.getProduct(product_id)
+                productForm.querySelector('.form-title').innerText = "Update product"
+
+                productForm.querySelector('#product-id').value = product.id
+                productForm.querySelector('#product-name').value = product.name
+                productForm.querySelector('#product-description').value = product.description
+                productForm.querySelector('#product-price').value = product.price;
+                productForm.querySelector('#product-stock_quantity').value = product.stock_quantity
+                productForm.querySelector('#product-image').src = product.image_url
+            }
+
+            if(e.target.classList.contains('delete-btn')) {
+                if(confirm("Are you sure you want to delete this product?")) {
+                    try {
+                        await api.deleteProduct(product_id)
+                        location.reload()
+                    } catch(err) {
+                        alert(`Error: ${err.message}`)
+                    }
+                }
+            }
+        })
     }
     if(productForm) {
         productForm.addEventListener('submit', async (e) => {
@@ -51,26 +86,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let formData = new FormData();
 
-            const fileInput = document.querySelector('#product-image_url')
-
             // {{ key }}, {{ value }}
-            formData.append('name', document.querySelector('#product-name').value)
-            formData.append('description', document.querySelector('#product-description').value)
-            formData.append('price', document.querySelector('#product-price').value)
-            formData.append('stock_quantity', document.querySelector('#product-stock_quantity').value)
+            const name = document.querySelector('#product-name').value
+            if(name) formData.append('name', name)
+            
+            const description = document.querySelector('#product-description').value
+            if(description) formData.append('description', description)
+
+            const price = document.querySelector('#product-price').value
+            if (price) formData.append('price', price)
+            
+            const stock_quantity = document.querySelector('#product-stock_quantity').value
+            if(stock_quantity) formData.append('stock_quantity', stock_quantity) 
 
             // chinicheck ng .files[0] yung first file na ininput sa input[type="file"] tag natin
+            const fileInput = document.querySelector('#product-image_url')
             if(fileInput.files[0]) {
                 formData.append('image', fileInput.files[0])
             }
 
-            try {
+            const id = productForm.querySelector('#product-id').value
+            if(id) {
+                await api.updateProduct(formData, id)
+                alert('Product updated successfully!')
+            } else {
                 await api.createProduct(formData)
                 alert('Product created successfully!')
-                location.reload()
-            } catch(err) {
-                alert(`Error: ${err.message}`)
             }
+            
+
+            location.reload()
+            
         })
     }
     if(createProductBtn) {
@@ -88,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             productForm.reset();
             productForm.style.display = "none"
             cancelProductBtn.style.display = "none"
+            productForm.querySelector('#product-image').style.display = "none"
         })
     }
 
