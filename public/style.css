@@ -23,7 +23,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 html {
@@ -42,8 +42,8 @@ body {
     min-height: 100vh;
 }
 
-h1 { font-size: 5rem; margin-bottom: .2em; font-family: 'Zuume'; }
-h2 { font-size: 4.5rem; margin-bottom: .3em; font-family: 'Zuume'; }
+h1 { margin-bottom: .2em; font-family: 'Zuume'; }
+h2 { margin-bottom: .3em; font-family: 'Zuume'; }
 p { margin-bottom: 1em; color: var(--dark-text); }
 a { color: var(--accent-color); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -132,6 +132,7 @@ header {
     flex-basis: 300px;
     padding: 15px;
     gap: 2rem;
+    border: 1px solid var(--accent-color);
 }
 .sidebar-content {
     display: flex;
@@ -144,13 +145,13 @@ header {
     padding: 5px;
     display: flex;
     gap: 1rem;
+    border: 1px solid var(--dark-text);
+    color: var(--dark-color);
 }
-.nav-item:hover {
-    background-color: gray;
-    color: white;
-}
+.nav-item:hover { border: 1px solid var(--accent-color); text-decoration: none; color: var(--accent-color); }
 .content {
     flex-grow: 1;
+    padding: 15px;
 }
 .sidebar-footer button {
     padding: 15px;
@@ -158,6 +159,39 @@ header {
 }
 .sidebar-footer button:hover {
     background-color: gray;
+    color: white;
+}
+
+
+
+
+/*  OTHER STYLES  */
+button {
+    background-color: var(--accent-color);
+    color: var(--light-text);
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+}
+button:hover {
+    background-color: var(--accent-color-hover);
+}
+table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 100%;
+}
+td, th {
+    border: 1px solid var(--medium-text);
+    padding: 8px;
+}
+tr:nth-child(even){background-color: var(--light-text);}
+/* tr:hover {background-color: var(--medium-text);} */
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: var(--accent-color);
     color: white;
 }
 
