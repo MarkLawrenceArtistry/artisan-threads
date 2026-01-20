@@ -25,5 +25,5 @@ app.use('/api/orders', orderRoutes)
 initDB();
 
 app.listen(PORT, () => {
-    console.log(`The server is listening at localhost:${PORT}`)
+    console.log(`The server is listening at http://localhost:${PORT}`)
 })

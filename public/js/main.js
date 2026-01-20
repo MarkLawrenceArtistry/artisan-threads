@@ -18,6 +18,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const createUserBtn = document.querySelector('#create-btn')
     const cancelUserBtn = document.querySelector('#cancel-btn')
 
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+
+
+    // UTILITIES
+    if(menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    }
+    
 
 
     // LOADERS
@@ -266,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 			}
 			catch(err) {
-				console.error(err)
+				alert(`Error: ${err.message}`)
 			} 
 		})
 	}
@@ -282,7 +294,11 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
     // (AUTH) GATEKEEPER FUNCTION/SESSION CHECKER
-    if(!(window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('login.html') || window.location.pathname.endsWith('register.html')) && !localStorage.getItem('currentUser')) {
+    if(!(window.location.pathname.endsWith('index.html') || 
+         window.location.pathname.endsWith('login.html') ||
+         window.location.pathname.endsWith('register.html') ||
+         window.location.pathname.endsWith('shop.html') ||
+         window.location.pathname.endsWith('cart.html')) && !localStorage.getItem('currentUser')) {
         alert('You must be logged in to view this page. Redirecting..')
         window.location.href = 'index.html'
     }
