@@ -109,22 +109,32 @@ export function renderUsersTable(users, container) {
 export function renderShopItems(products, container) {
     container.innerHTML = '';
 
+    if (!products || products.length === 0) {
+        container.innerHTML = '<p>No products found.</p>';
+        return;
+    }
+
     products.forEach(element => {
         const card = document.createElement('div');
         card.dataset.id = element.id
         card.classList.add('shop-item')
 
         card.innerHTML = `
-            ${element.name}
-            ${element.description}
-            ${element.price}
-            ${element.stock_quantity}
+            <div class="product-image-container">
+                <img src="${element.image_url}" alt="${element.name}" class="product-image">
+            </div>
             
-            <img src=${element.image_url} style="height: 100px;">
+            <div class="product-info">
+                <h3 class="product-title">${element.name}</h3>
+                <p class="product-desc">${element.description}</p>
+                <div class="product-meta">
+                    <span class="product-price">₱${element.price}</span>
+                    <span class="product-stock">Stock: ${element.stock_quantity}</span>
+                </div>
+            </div>
 
-            <div class="action-buttons">
-                <button class='btn edit-btn'>Edit</button>
-                <button class='btn delete-btn'>Delete</button>
+            <div class="product-actions">
+                <button class="add-to-cart-btn" data-id="${element.id}">Add to Cart</button>
             </div>
         `;
 
