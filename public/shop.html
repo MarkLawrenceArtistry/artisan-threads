@@ -7,9 +7,37 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        
-    </div>
+    <header>
+        <div class="public-container header-container">
+            <div class="logo-container">
+                <a href="index.html"><img src="resources/logo/logo.png" alt="My Logo" class="logo"></a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a class="active" href="shop.html">Shop</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle">☰</button>
+        </div>
+    </header>
+
+    <main class="public-container">
+        <div class="shop-header">
+            <h1>SHOP</h1>
+            <div class="shop-filters">
+                <input type="text" id="shop-search" placeholder="Search..">
+                <button>Filter</button>
+                <button>Filter</button>
+            </div>
+        </div>
+
+        <div class="shop-content">
+            <div id="shop-list"></div>
+        </div>
+    </main>
 
     <script type='module' src='js/main.js'></script>
 </body>

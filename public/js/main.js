@@ -4,19 +4,21 @@ import * as render from './render.js'
 document.addEventListener('DOMContentLoaded', () => {
 
 	// CONSTANTS
-	const registerForm = document.querySelector('#register-form')
-	const loginForm = document.querySelector('#login-form')
-    const logoutBtn = document.querySelector('#logout-button')
+	const registerForm = document.querySelector('#register-form');
+	const loginForm = document.querySelector('#login-form');
+    const logoutBtn = document.querySelector('#logout-button');
 	
-    const productsListDiv = document.querySelector('#products-list')
-    const productForm = document.querySelector('#product-form')
-    const createProductBtn = document.querySelector('#create-product-btn')
-    const cancelProductBtn = document.querySelector('#cancel-product-btn')
+    const productsListDiv = document.querySelector('#products-list');
+    const productForm = document.querySelector('#product-form');
+    const createProductBtn = document.querySelector('#create-product-btn');
+    const cancelProductBtn = document.querySelector('#cancel-product-btn');
 
-    const usersListDiv = document.querySelector('#users-list')
-    const userForm = document.querySelector('#user-form')
-    const createUserBtn = document.querySelector('#create-btn')
-    const cancelUserBtn = document.querySelector('#cancel-btn')
+    const usersListDiv = document.querySelector('#users-list');
+    const userForm = document.querySelector('#user-form');
+    const createUserBtn = document.querySelector('#create-btn');
+    const cancelUserBtn = document.querySelector('#cancel-btn');
+
+    const shopListDiv = document.querySelector('#shop-list');
 
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
@@ -45,6 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
 			const result = await api.getAllUsers()
 			render.renderUsersTable(result, usersListDiv)
+		} catch(err) {
+			console.error(err)
+		}
+    }
+    async function loadShop() {
+        try {
+			const result = await api.getAllProducts()
+			render.renderShopItems(result, shopListDiv)
 		} catch(err) {
 			console.error(err)
 		}
@@ -152,6 +162,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    // (SHOP) 
+    if(shopListDiv) {
+        loadShop();
+
+        shopListDiv.addEventListener('click', (e) => {
+            e.preventDefault();
+        })
+    }
+
+
+
 
     // (AUTH) REGISTER publicly
 	if(registerForm) {
@@ -177,6 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			} 
 		})
 	}
+
+    // (AUTH) REGISTER admin/UPDATE
     if(createUserBtn) {
         createUserBtn.addEventListener('click', (e) => {
             e.preventDefault()
@@ -194,7 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
             cancelUserBtn.style.display = "none"
         })
     }
-    // (AUTH) REGISTER admin/UPDATE
     if(userForm) {
         userForm.addEventListener('submit', async (e) => {
             e.preventDefault()
@@ -218,6 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
             location.reload()
         })
     }
+
     // (AUTH) TABLE EVENT LISTENER (UPDATE/DELETE)
     if(usersListDiv) {
         loadUsers();
@@ -255,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
     }
+
     // (AUTH) LOGIN
     if(loginForm) {
 		loginForm.addEventListener('submit', async (e) => {
@@ -282,6 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			} 
 		})
 	}
+
     // (AUTH) LOGOUT
     if(logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
@@ -293,6 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
     }
+
     // (AUTH) GATEKEEPER FUNCTION/SESSION CHECKER
     if(!(window.location.pathname.endsWith('index.html') || 
          window.location.pathname.endsWith('login.html') ||

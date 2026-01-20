@@ -8,45 +8,38 @@
     --secondary-accent-color-hover: #565c62;
     --header-height: 70px;
 }
-
 @font-face {
     font-family: 'Circular';
     src: url('resources/fonts/CircularStd-Medium.otf');
 }
-
 @font-face {
     font-family: 'Zuume';
     src: url('resources/fonts/Zuume-Bold.ttf');
 }
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* border: 1px solid red; */
+    border: 1px solid red;
 }
-
 html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height);
 }
-
 body {
     font-family: 'Circular';
     background-color: #f1f4f9;
     color: var(--dark-text);
 }
-
 .container {
     display: flex;
     min-height: 100vh;
 }
-
-h1 { margin-bottom: .2em; font-family: 'Zuume'; }
-h2 { margin-bottom: .3em; font-family: 'Zuume'; }
+h1, h2 { font-family: 'Zuume'; }
 p { margin-bottom: 1em; color: var(--dark-text); }
-a { color: var(--accent-color); text-decoration: none; }
+a { text-decoration: none; }
 a:hover { text-decoration: underline; }
+input { padding: 10px; font: 'Circular'; border-radius: 5px; border: 1px solid var(--medium-text); }
 
 /* may content class na */
 
@@ -57,7 +50,8 @@ a:hover { text-decoration: underline; }
 .public-container {
     max-width: 1140px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 5px 15px;
+
 }
 header {
     height: 70px;
@@ -165,11 +159,41 @@ header {
 
 
 
+
+
+
+/* SHOP STYLES */
+.shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.shop-header button {
+    padding: 10px;
+}
+.shop-item {
+    border: 1px solid var(--accent-color);
+    width: 300px;
+    height: 200px;
+    border-radius: 5px;
+}
+#shop-list {
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 84.8vh;
+}
+
+
+
+
+
+
+
 /*  OTHER STYLES  */
 button {
     background-color: var(--accent-color);
     color: var(--light-text);
-    padding: 5px 10px;
     border-radius: 5px;
     border: none;
 }
@@ -194,6 +218,7 @@ th {
     background-color: var(--accent-color);
     color: white;
 }
+.active { color: var(--accent-color) !important; }
 
 
 

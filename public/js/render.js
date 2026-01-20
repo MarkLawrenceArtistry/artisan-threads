@@ -103,3 +103,31 @@ export function renderUsersTable(users, container) {
 
     container.appendChild(table)
 }
+
+
+// SHOP
+export function renderShopItems(products, container) {
+    container.innerHTML = '';
+
+    products.forEach(element => {
+        const card = document.createElement('div');
+        card.dataset.id = element.id
+        card.classList.add('shop-item')
+
+        card.innerHTML = `
+            ${element.name}
+            ${element.description}
+            ${element.price}
+            ${element.stock_quantity}
+            
+            <img src=${element.image_url} style="height: 100px;">
+
+            <div class="action-buttons">
+                <button class='btn edit-btn'>Edit</button>
+                <button class='btn delete-btn'>Delete</button>
+            </div>
+        `;
+
+        container.appendChild(card)
+    });
+}
