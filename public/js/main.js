@@ -22,8 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
-
-
+    const userIndicatorEl = document.querySelector('#user-indicator');
 
     // UTILITIES
     if(menuToggle) {
@@ -162,14 +161,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // (SHOP) 
+    // (SHOP)
+    const itemDetailDiv = document.querySelector('#item-detail');
     if(shopListDiv) {
         loadShop();
 
-        shopListDiv.addEventListener('click', (e) => {
+        shopListDiv.addEventListener('click', async (e) => {
             e.preventDefault();
+
+            const card = e.target.closest('.shop-item');
+            const product_id = card.dataset.id;
+
+            if(e.target.classList.contains('add-to-cart-btn')) {
+                const product = await api.getProduct(product_id);
+                localStorage.setItem('currentProduct', JSON.stringify(product));
+                location.href = 'details.html';
+            }
+        });
+    }
+    if(window.location.pathname.endsWith('details.html')) {
+        const currentProduct = JSON.parse(localStorage.getItem('currentProduct'));
+
+        itemDetailDiv.innerHTML = '';
+
+        if(!currentProduct) {
+            itemDetailDiv.innerHTML = `<p>Nothing here yet. Pick a product! <a href="shop.html">Click here.</a></p>`;
+            return
+        }
+        itemDetailDiv.innerHTML = `
+            <div class="product-image-container">
+                <img src="${currentProduct.image_url}" alt="${currentProduct.name}" class="product-image">
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-title">${currentProduct.name}</h3>
+                <p class="product-desc">${currentProduct.description}</p>
+                <div class="product-meta">
+                    <span class="product-price">₱${currentProduct.price}</span>
+                    <span class="product-stock">Stock: ${currentProduct.stock_quantity}</span>
+                </div>
+                <div>
+                    <label>Quantity</label>
+                    <input type="quantity" id="add-product-quantity">
+                </div>
+            </div>
+
+            <div class="product-actions">
+                <button class="add-to-cart-btn" id="add-product-cart">Add to Cart</button>
+                <button id="cancel-product-cart">Cancel</button>
+            </div>
+        `;
+    }
+    const cancelProductCartBtn = document.querySelector('#cancel-product-cart');
+    if(cancelProductCartBtn) {
+        cancelProductCartBtn.addEventListener('click', (e) => {
+            localStorage.removeItem('currentProduct');
+            location.href = "shop.html";
         })
     }
+    const addProductCartBtn = document.querySelector('#add-product-cart');
+    if(addProductCartBtn) {
+        const currentProduct = JSON.parse(localStorage.getItem('currentProduct'));
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        addProductCartBtn.addEventListener('click', async (e) => {
+            const quantity = document.querySelector('#add-product-quantity').value;
+            if(!quantity) {
+                alert('Quantity cannot be 0.');
+                return;
+            }
+
+            if(!currentUser) {
+                alert('You need to be logged in first.');
+                location.href = 'login.html';
+                return;
+            }
+
+            const data = {
+                user_id: currentUser.id,
+                product_id: currentProduct.id,
+                quantity: quantity
+            }
+
+            // api
+            try {
+                const result = await api.addItem(data);
+                alert(result.data.message);
+                location.href = 'shop.html'
+            } catch(err) {
+                alert(`Error: ${err.message}`);
+            }
+        })
+    }
+    
 
 
 
@@ -290,15 +374,15 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 			
 			try {
-				const data = await api.loginAccount(credentials)
-                localStorage.setItem("currentUser", JSON.stringify(data))
-				alert('Logged in successfully!')
+				const data = await api.loginAccount(credentials);
+                localStorage.setItem("currentUser", JSON.stringify(data));
+				alert('Logged in successfully!');
 				
-				loginForm.reset()
+				loginForm.reset();
                 if(data.role === "admin") {
                     location.href = 'admin-dashboard.html';
                 } else {
-                    location.href = 'dashboard.html';
+                    location.href = 'index.html';
                 }
 			}
 			catch(err) {
@@ -306,6 +390,19 @@ document.addEventListener('DOMContentLoaded', () => {
 			} 
 		})
 	}
+
+    if(userIndicatorEl) {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if(!currentUser) {
+            return
+        }
+        if(currentUser.role !== 'admin') {
+            userIndicatorEl.style.display = 'inline-block'
+            userIndicatorEl.innerHTML = `<p>Current User: ${currentUser.name}</p>`;
+            userIndicatorEl.style.hover
+            userIndicatorEl.addEventListener('click', (e) => {location.href = 'dashboard.html'})
+        }
+    }
 
     // (AUTH) LOGOUT
     if(logoutBtn) {
@@ -324,6 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
          window.location.pathname.endsWith('login.html') ||
          window.location.pathname.endsWith('register.html') ||
          window.location.pathname.endsWith('shop.html') ||
+         window.location.pathname.endsWith('details.html') ||
          window.location.pathname.endsWith('cart.html')) && !localStorage.getItem('currentUser')) {
         alert('You must be logged in to view this page. Redirecting..')
         window.location.href = 'index.html'

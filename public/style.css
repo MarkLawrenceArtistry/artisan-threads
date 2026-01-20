@@ -36,7 +36,7 @@ body {
     min-height: 100vh;
 }
 h1, h2 { font-family: 'Zuume'; }
-p { margin-bottom: 1em; color: var(--dark-text); }
+p { color: var(--dark-text); }
 a { text-decoration: none; }
 a:hover { text-decoration: underline; }
 input { padding: 10px; font: 'Circular'; border-radius: 5px; border: 1px solid var(--medium-text); }
@@ -265,9 +265,9 @@ button {
     border-radius: 5px;
     border: none;
 }
-button:hover {
+/* button:hover {
     background-color: var(--accent-color-hover);
-}
+} */
 table {
     margin-top: 20px;
     border-collapse: collapse;
@@ -287,8 +287,16 @@ th {
     color: white;
 }
 .active { color: var(--accent-color) !important; }
-
-
+#user-indicator {
+    cursor: pointer;
+}
+#user-indicator p:hover { color: var(--accent-color); }
+#cancel-product-cart {
+    width: 100%;
+    background-color: #a0a0a0;
+    padding: 10px;
+    margin-top: 5px;
+}
 
 
 
@@ -296,7 +304,8 @@ th {
 #user-form,
 #product-form,
 #cancel-btn,
-#cancel-product-btn {
+#cancel-product-btn,
+#user-indicator {
     display: none;
 }
 

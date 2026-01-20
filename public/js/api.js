@@ -180,3 +180,26 @@ export async function updateProduct(data, id) {
 
     return result.data
 }
+
+
+
+
+
+
+// (CART) Add Item
+export async function addItem(data) {
+    const response = await fetch('/api/cart_items/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+} 

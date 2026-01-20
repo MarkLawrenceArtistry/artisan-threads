@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop - Artisan Threads</title>
+    <title>Details Page</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,8 +15,8 @@
             <nav>
                 <ul class="nav-links">
                     <li id="user-indicator"></li>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a class="active" href="shop.html">Shop</a></li>
+                    <li><a class="active" href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
                     <li><a href="cart.html">Cart</a></li>
                     <li><a href="about.html">About Us</a></li>
                 </ul>
@@ -26,20 +26,7 @@
     </header>
 
     <main class="public-container">
-        <div class="shop-header">
-            <h1>SHOP</h1>
-            <div class="shop-filters">
-                <input type="text" id="shop-search" placeholder="Search..">
-                <button>Filter</button>
-                <button>Filter</button>
-            </div>
-        </div>
-
-        <div class="shop-content">
-            <div id="shop-list"></div>
-
-            <div id="shop-detail"></div>
-        </div>
+        <div id="item-detail"></div>
     </main>
 
     <script type='module' src='js/main.js'></script>

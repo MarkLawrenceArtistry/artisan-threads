@@ -67,6 +67,8 @@ const login = (req, res) => {
             if(isMatch) {
                 return res.status(200).json({success:true,data:{
                     message:"Logged in successful",
+                    id: user.id,
+                    name: user.name,
                     email: email,
                     role: user.role
                 }})
