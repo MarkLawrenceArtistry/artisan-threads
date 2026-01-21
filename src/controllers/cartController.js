@@ -1,4 +1,5 @@
-const { db } = require('../database')
+const { db } = require('../database');
+const { run, all, get } = require('../utils/helper');
 
 const addItem = (req, res) => {
     const { user_id, product_id, quantity } = req.body
@@ -83,4 +84,20 @@ const deleteItem = (req, res) => {
     })
 }
 
-module.exports = { addItem, getItem, getAllItem, deleteItem }
+const getCart = async (req, res) => {
+    try {
+        const { id } = req.params
+        const query = `
+            SELECT * FROM cart_items
+            WHERE user_id = ?
+        `
+        const params = [id];
+
+        const rows = await all(query, params);
+        res.status(201).json({success:true,data:rows})
+    } catch(err) {
+        return res.status(500).json({success:false,data:`Error: ${err.message}`})
+    }
+}
+
+module.exports = { addItem, getItem, getAllItem, deleteItem, getCart }

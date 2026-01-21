@@ -1,3 +1,4 @@
+import { use } from "react"
 
 
 // (AUTH) Register
@@ -194,6 +195,18 @@ export async function addItem(data) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}
+export async function getCart(user_id) {
+    const response = await fetch(`/api/cart_items/cart/user/${user_id}`, {
+        method: 'GET',
     })
 
     const result = await response.json()

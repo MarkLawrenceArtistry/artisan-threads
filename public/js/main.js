@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelUserBtn = document.querySelector('#cancel-btn');
 
     const shopListDiv = document.querySelector('#shop-list');
+    
+    const cartListDiv = document.querySelector('#cart-list');
+
 
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
@@ -53,6 +56,18 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadShop() {
         try {
 			const result = await api.getAllProducts()
+			render.renderShopItems(result, shopListDiv)
+		} catch(err) {
+			console.error(err)
+		}
+    }
+    async function loadCart() {
+        try {
+			const result = await api.getCart(currentUser.id);
+            let arrOfObj = [];
+            result.forEach(cartItem => {
+                const product = await api.getProduct(cartItem.product_id);
+            });
 			render.renderShopItems(result, shopListDiv)
 		} catch(err) {
 			console.error(err)
@@ -252,6 +267,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(`Error: ${err.message}`);
             }
         })
+    }
+
+
+    
+    // (CART)
+    if(cartListDiv) {
+
     }
     
 
