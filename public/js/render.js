@@ -141,3 +141,58 @@ export function renderShopItems(products, container) {
         container.appendChild(card)
     });
 }
+
+
+
+// CART
+export function renderCart(cart, container) {
+    container.innerHTML = '';
+
+    if (!cart || cart.length === 0) {
+        container.innerHTML = `
+            <h2>Your cart is empty.</h2>
+            <a href="shop.html">Continue Shopping</a>
+        `;
+        return;
+    }
+
+    let total = 0;
+    cart.forEach(element => {
+        const card = document.createElement('div');
+        card.dataset.id = element.cart_item_id;
+        card.classList.add('cart-item');
+
+        const itemTotal = element.price * element.quantity;
+        total += itemTotal;
+
+        card.innerHTML = `
+            <div class="product-image-container">
+                <img src="${element.image_url}" alt="${element.name}" class="product-image">
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-title">${element.name}</h3>
+                <div class="product-meta">
+                    <span class="product-price">₱${element.price.toFixed(2)}</span>
+                    <span class="product-quantity">Quantity: ${element.quantity}</span>
+                </div>
+                <h3 class="cart-total">₱${itemTotal.toFixed(2)}</h3>
+            </div>
+
+            <div class="product-actions">
+                <button class="remove-to-cart-btn">Remove to Cart</button>
+            </div>
+        `;
+
+        container.appendChild(card);
+    })
+
+    const summaryHtml = `
+        <div class="cart-summary">
+            <h3>Total: ₱${total.toFixed(2)}</h3>
+            <button id="checkout-btn">Proceed to Checkout</button>
+        </div>
+    `;
+
+    container.innerHTML += summaryHtml;
+}

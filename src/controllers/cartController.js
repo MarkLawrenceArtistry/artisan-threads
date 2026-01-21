@@ -88,12 +88,26 @@ const getCart = async (req, res) => {
     try {
         const { id } = req.params
         const query = `
-            SELECT * FROM cart_items
-            WHERE user_id = ?
+            SELECT
+                ci.id as cart_item_id,
+                ci.quantity,
+                p.id as product_id,
+                p.name,
+                p.price,
+                p.image_url
+            FROM cart_items ci
+            JOIN products p
+            ON ci.product_id = p.id
+            WHERE ci.user_id = ?
+
         `
         const params = [id];
 
         const rows = await all(query, params);
+
+        if(!rows) {
+            return res.status(201).json({success:true,data:[]})
+        }
         res.status(201).json({success:true,data:rows})
     } catch(err) {
         return res.status(500).json({success:false,data:`Error: ${err.message}`})

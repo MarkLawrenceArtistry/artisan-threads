@@ -63,14 +63,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     async function loadCart() {
         try {
-			const result = await api.getCart(currentUser.id);
-            let arrOfObj = [];
-            result.forEach(cartItem => {
-                const product = await api.getProduct(cartItem.product_id);
-            });
-			render.renderShopItems(result, shopListDiv)
+			const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+            if(!currentUser) {
+                cartListDiv.innerHTML = `<p>You must be <a href="login.html">logged in</a> first.</p>`;
+                return;
+            }
+
+            const cart = await api.getCart(currentUser.id);
+            render.renderCart(cart, cartListDiv);
 		} catch(err) {
-			console.error(err)
+			console.error(err);
+            cartListDiv.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
 		}
     }
 
@@ -273,7 +277,25 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // (CART)
     if(cartListDiv) {
+        loadCart();
 
+        cartListDiv.addEventListener('click', async (e) => {
+            const cartItemDiv = e.target.closest('.cart-item');
+            const cartItemId = cartItemDiv.dataset.id;
+
+            if (e.target.classList.contains('remove-to-cart-btn')) {
+                console.log(cartItemId)
+                if (confirm('Remove this item from your cart?')) {
+                    try {
+                        await api.removeItem(cartItemId);
+                        alert(`Item with ID ${cartItemId} successfully removed.`);
+                        location.reload();
+                    } catch(err) {
+                        alert(`Error: ${err.message}`);
+                    }
+                }
+            }
+        })
     }
     
 

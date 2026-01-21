@@ -1,5 +1,3 @@
-import { use } from "react"
-
 
 // (AUTH) Register
 export async function createAccount(newAccount) {
@@ -204,6 +202,7 @@ export async function addItem(data) {
 
     return result.data
 }
+// (CART) Get Cart with details
 export async function getCart(user_id) {
     const response = await fetch(`/api/cart_items/cart/user/${user_id}`, {
         method: 'GET',
@@ -215,4 +214,20 @@ export async function getCart(user_id) {
     }
 
     return result.data
-} 
+}
+// (CART) Remove Item in Cart
+export async function removeItem(product_id) {
+    const response = await fetch(`/api/cart_items/${product_id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}
