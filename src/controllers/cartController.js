@@ -84,6 +84,31 @@ const deleteItem = (req, res) => {
     })
 }
 
+const updateItemQuantity = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { quantity } = req.body;
+
+        if(!quantity) {
+            return res.status(400).json({success:false,data:"Quantity not provided. Operation cancelled."})
+        }
+
+        const query = `
+            UPDATE cart_items
+            SET
+                quantity = COALESCE(?, quantity)
+            WHERE id = ?
+        `
+
+        const params = [quantity, id]
+
+        const result = await run(query, params);
+        res.status(201).json({success:true,data:`Updated Item no.${result.lastID} successfully!`})
+    } catch(err) {
+        return res.status(500).json({success:false,data:`Internal Server Error: ${err.message}`});
+    }
+}
+
 const getCart = async (req, res) => {
     try {
         const { id } = req.params
@@ -114,4 +139,11 @@ const getCart = async (req, res) => {
     }
 }
 
-module.exports = { addItem, getItem, getAllItem, deleteItem, getCart }
+module.exports = { 
+    addItem, 
+    getItem, 
+    getAllItem, 
+    deleteItem, 
+    updateItemQuantity,
+    getCart,
+}

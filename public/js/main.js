@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // api
             try {
                 const result = await api.addItem(data);
-                alert(result.data.message);
+                alert("Added item to cart successfully!");
                 location.href = 'shop.html'
             } catch(err) {
                 alert(`Error: ${err.message}`);
@@ -280,20 +280,50 @@ document.addEventListener('DOMContentLoaded', () => {
         loadCart();
 
         cartListDiv.addEventListener('click', async (e) => {
-            const cartItemDiv = e.target.closest('.cart-item');
-            const cartItemId = cartItemDiv.dataset.id;
+            const row = e.target.closest('tr');
+            const cart_id = row.dataset.id;
 
-            if (e.target.classList.contains('remove-to-cart-btn')) {
-                console.log(cartItemId)
-                if (confirm('Remove this item from your cart?')) {
-                    try {
-                        await api.removeItem(cartItemId);
-                        alert(`Item with ID ${cartItemId} successfully removed.`);
-                        location.reload();
-                    } catch(err) {
-                        alert(`Error: ${err.message}`);
-                    }
+            if(e.target.classList.contains('remove-to-cart-btn')) {
+                if(confirm("Are you sure you want to remove the product from your cart?")) {
+                    await api.removeItem(cart_id);
+                    location.reload();
+                    alert('Item removed successfully.')
                 }
+            }
+
+            if(e.target.classList.contains('edit-quantity-btn')) {
+                const quantityTextEl = row.querySelector('#cart-quantity');
+                quantityTextEl.style.display = 'none';
+
+                let quantityWrapper = row.querySelector('#quantity-wrapper');
+                quantityWrapper.innerHTML = `
+                    <input type="number" id="cart-update-quantity">
+                `;
+
+                const editBtn = row.querySelector('.edit-quantity-btn');
+                editBtn.style.display = 'none';
+
+                const cartActionsDiv = row.querySelector('.cart-actions');
+                cartActionsDiv.innerHTML += `
+                    <button class="cancel-update-btn">Cancel</button>
+                    <button class="save-update-btn">Save</button>
+                `;
+
+                const saveUpdateBtn = row.querySelector('.save-update-btn');
+                saveUpdateBtn.addEventListener('click', async (e) => {
+                    const quantityInputEl = row.querySelector('#cart-update-quantity').value.trim();
+                    const data = {
+                        quantity: quantityInputEl
+                    }
+                    await api.updateItemQuantity(cart_id, data);
+                    alert("Updated the item quantity successfully.");
+                    location.reload();
+                })
+
+                const cancelUpdateBtn = row.querySelector('.cancel-update-btn');
+                cancelUpdateBtn.addEventListener('click', async (e) => {
+                    location.reload();
+                })
             }
         })
     }

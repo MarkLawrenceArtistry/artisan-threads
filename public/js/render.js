@@ -156,36 +156,63 @@ export function renderCart(cart, container) {
         return;
     }
 
+    const cartWrapper = document.createElement('div');
+    cartWrapper.classList.add('cart-wrapper');
+
+    const table = document.createElement('table')
+	table.className = 'cart table'
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    `;
+
     let total = 0;
+    const tbody = table.querySelector('tbody');
     cart.forEach(element => {
-        const card = document.createElement('div');
-        card.dataset.id = element.cart_item_id;
-        card.classList.add('cart-item');
+        const row = document.createElement('tr')
+        row.dataset.id = element.cart_item_id
+        row.classname = 'cart-item'
 
         const itemTotal = element.price * element.quantity;
         total += itemTotal;
 
-        card.innerHTML = `
-            <div class="product-image-container">
-                <img src="${element.image_url}" alt="${element.name}" class="product-image">
-            </div>
-            
-            <div class="product-info">
-                <h3 class="product-title">${element.name}</h3>
-                <div class="product-meta">
-                    <span class="product-price">₱${element.price.toFixed(2)}</span>
-                    <span class="product-quantity">Quantity: ${element.quantity}</span>
+        row.innerHTML = `
+            <td>
+                <div class="cart-info">
+                    <div class="cart-image">
+                        <img src="${element.image_url}" alt="${element.name}">
+                    </div>
+                    
+                    <div class="cart-name">
+                        <p>${element.name}</p>
+                    </div>
                 </div>
-                <h3 class="cart-total">₱${itemTotal.toFixed(2)}</h3>
-            </div>
-
-            <div class="product-actions">
-                <button class="remove-to-cart-btn">Remove to Cart</button>
-            </div>
+            </td>
+            <td id="quantity-wrapper"><p id="cart-quantity">${element.quantity}</p></td>
+            <td>₱${element.price.toFixed(2)}</td>
+            <td>₱${itemTotal.toFixed(2)}</td>
+            <td>
+                <div class="cart-actions">
+                    <button class="remove-to-cart-btn">Remove to Cart</button>
+                    <button class="edit-quantity-btn">Edit Quantity</button>
+                </div>
+            </td>
         `;
 
-        container.appendChild(card);
+        tbody.appendChild(row);
     })
+
+    table.appendChild(tbody)
+    cartWrapper.appendChild(table);
+    container.appendChild(cartWrapper);
 
     const summaryHtml = `
         <div class="cart-summary">

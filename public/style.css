@@ -41,8 +41,6 @@ a { text-decoration: none; }
 a:hover { text-decoration: underline; }
 input { padding: 10px; font: 'Circular'; border-radius: 5px; border: 1px solid var(--medium-text); }
 
-/* may content class na */
-
 
 
 
@@ -257,6 +255,35 @@ header {
 
 
 
+/* CART STYLES */
+.cart-content button {
+    padding: 10px;
+}
+#cart-list, .cart-info {
+    display: flex;
+}
+.cart-wrapper {
+    padding: 15px;
+}
+.cart-name {
+    flex: 1;
+}
+.cart-wrapper {
+    flex: 3;
+}
+.cart-summary {
+    flex: 1.4;
+}
+.cart.table img {
+    height: 100px;
+}
+
+
+
+
+
+
+
 
 /*  OTHER STYLES  */
 button {
@@ -301,6 +328,22 @@ th {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #user-form,
 #product-form,
 #cancel-btn,
@@ -308,8 +351,6 @@ th {
 #user-indicator {
     display: none;
 }
-
-
 
 @media (max-width:768px) {
     .menu-toggle {

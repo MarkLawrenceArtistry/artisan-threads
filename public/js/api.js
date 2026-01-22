@@ -231,3 +231,21 @@ export async function removeItem(product_id) {
 
     return result.data
 }
+// (CART) Update Quantity in Cart
+export async function updateItemQuantity(product_id, quantity) {
+    
+    const response = await fetch(`/api/cart_items/qty/${product_id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(quantity)
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}

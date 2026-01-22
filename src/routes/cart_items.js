@@ -10,4 +10,6 @@ router.get('/:id', cartController.getItem)
 router.get('/cart/user/:id', cartController.getCart)
 router.delete('/:id', cartController.deleteItem)
 
+router.put('/qty/:id', cartController.updateItemQuantity)
+
 module.exports = router
