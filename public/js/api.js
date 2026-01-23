@@ -249,3 +249,25 @@ export async function updateItemQuantity(product_id, quantity) {
 
     return result.data
 }
+
+
+
+
+
+// (ORDERS) Place Order
+export async function placeOrder(user_id) {
+    const response = await fetch(`/api/orders/place`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user_id)
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}

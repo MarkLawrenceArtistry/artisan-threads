@@ -282,6 +282,26 @@ header {
 
 
 
+/* CHECKOUT STYLES */
+.checkout-wrapper {
+    display: flex;
+}
+.checkout-form-wrapper {
+    flex: 2;
+}
+.checkout-order {
+    flex: 1;
+}
+.checkout-wrapper button {
+    padding: 10px;
+}
+
+
+
+
+
+
+
 
 
 
@@ -323,6 +343,9 @@ th {
     background-color: #a0a0a0;
     padding: 10px;
     margin-top: 5px;
+}
+.max-view {
+    min-height: 88vh;
 }
 
 

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Artisan Threads</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="public-container header-container">
+            <div class="logo-container">
+                <a href="index.html"><img src="resources/logo/logo.png" alt="My Logo" class="logo"></a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li id="user-indicator"></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a class="active" href="cart.html">Cart</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle">☰</button>
+        </div>
+    </header>
+
+    <main class="public-container max-view">
+        <h1>Checkout</h1>
+        <!-- checkout form, cart -->
+        <div class="checkout-wrapper">
+            <div class="checkout-form-wrapper">
+                <form id="checkout-form">
+                    <h3>1. Contact Info</h3>
+                    <label>Name</label>
+                    <input type="text" placeholder="Your name..">
+
+                    <label>Contact Num</label>
+                    <input type="text" placeholder="Your number..">
+
+                    <h3>2. Billing Address</h3>
+                    <label>Address</label>
+                    <textarea placeholder="Your address.." rows="5" cols="30"></textarea>
+
+                    <h3>3. Payment Method - Cash on Delivery</h3>
+                    <button>Submit</button>
+                </form>
+            </div>
+
+            <div class="checkout-order">
+                <div id="checkout-cart">
+
+                </div>
+
+                <div class="checkout-confirm">
+                    <button id="confirm-checkout">Place Order</button>
+                </div>
+            </div>
+        </div>
+
+        
+    </main>
+
+    <script type='module' src='js/main.js'></script>
+</body>
+</html>

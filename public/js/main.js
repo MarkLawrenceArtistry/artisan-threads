@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const cartListDiv = document.querySelector('#cart-list');
 
+    const checkoutCartDiv = document.querySelector('#checkout-cart');
+    const placeOrderBtn = document.querySelector('#confirm-checkout');
 
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
@@ -75,6 +77,22 @@ document.addEventListener('DOMContentLoaded', () => {
 		} catch(err) {
 			console.error(err);
             cartListDiv.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
+		}
+    }
+    async function loadCheckoutCart() {
+        try {
+			const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+            if(!currentUser) {
+                checkoutCartDiv.innerHTML = `<p>You must be <a href="login.html">logged in</a> first.</p>`;
+                return;
+            }
+
+            const cart = await api.getCart(currentUser.id);
+            render.renderCheckoutCart(cart, checkoutCartDiv);
+		} catch(err) {
+			console.error(err);
+            checkoutCartDiv.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
 		}
     }
 
@@ -280,10 +298,10 @@ document.addEventListener('DOMContentLoaded', () => {
         loadCart();
 
         cartListDiv.addEventListener('click', async (e) => {
-            const row = e.target.closest('tr');
-            const cart_id = row.dataset.id;
-
             if(e.target.classList.contains('remove-to-cart-btn')) {
+                const row = e.target.closest('tr');
+                const cart_id = row.dataset.id;
+
                 if(confirm("Are you sure you want to remove the product from your cart?")) {
                     await api.removeItem(cart_id);
                     location.reload();
@@ -292,6 +310,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if(e.target.classList.contains('edit-quantity-btn')) {
+                const row = e.target.closest('tr');
+                const cart_id = row.dataset.id;
+
                 const quantityTextEl = row.querySelector('#cart-quantity');
                 quantityTextEl.style.display = 'none';
 
@@ -325,9 +346,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     location.reload();
                 })
             }
+
+            if(e.target.classList.contains('checkout-btn')) {
+                location.href = 'checkout.html';
+            }
         })
     }
     
+
+
+
+    // (CHECKOUT)
+    if(checkoutCartDiv) {
+        loadCheckoutCart();
+    }
+    if(placeOrderBtn) {
+        placeOrderBtn.addEventListener('click', async (e) => {
+            try {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                const userId = {
+                    user_id: currentUser.id
+                }
+                const result = await api.placeOrder(userId);
+                alert(result.data.message);
+                location.href = "cart.html"
+            } catch(err) {
+                alert(`Error: ${err.message}`)
+            }
+        })
+    }
 
 
 
@@ -496,6 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
          window.location.pathname.endsWith('register.html') ||
          window.location.pathname.endsWith('shop.html') ||
          window.location.pathname.endsWith('details.html') ||
+         window.location.pathname.endsWith('checkout.html') ||
          window.location.pathname.endsWith('cart.html')) && !localStorage.getItem('currentUser')) {
         alert('You must be logged in to view this page. Redirecting..')
         window.location.href = 'index.html'
