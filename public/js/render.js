@@ -296,3 +296,55 @@ export function renderCheckoutCart(cart, container) {
 
     container.innerHTML += summaryHtml;
 }
+
+
+
+
+// ORDERS
+export function renderOrders(orders, container) {
+    container.innerHTML = ``;
+
+    const table = document.createElement('table')
+	table.className = 'orders table'
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer Name</th>
+                <th>Total Amout</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    `;
+
+    const tbody = table.querySelector('tbody');
+    orders.forEach(element => {
+        const row = document.createElement('tr')
+        row.dataset.id = element.id
+        row.classname = 'order-item'
+
+        row.innerHTML = `
+            <td>${element.id}</td>
+            <td>${element.name}</td>
+            <td>${element.total_amount}</td>
+            <td id="order-status"><p id="order-status-p">${element.status}</p></td>
+            <td>
+                <div class="action-buttons">
+                    <button class='btn edit-btn'>Edit</button>
+                    <button class='btn delete-btn'>Delete</button>
+                </div>
+            </td>
+        `;
+
+        tbody.appendChild(row)
+    });
+    if(orders.length < 1) {
+        tbody.innerHTML = `
+            <td colspan="5" class="no-data" style="text-align:center;">There is no data here..</td>
+        `
+    }
+
+    container.appendChild(table)
+}

@@ -81,4 +81,55 @@ const placeOrder = async (req, res) => {
     }
 }
 
-module.exports = { placeOrder }
+const getAllOrders = async (req, res) => {
+    try {
+        const rows = await all(`
+            SELECT
+                o.id,
+                o.user_id,
+                o.total_amount,
+                o.status,
+                u.id as user_id,
+                u.name
+            FROM orders as o
+            JOIN users u
+            ON o.user_id = u.id
+        `);
+
+        if(!rows) {
+            return res.status(201).json({success:true,data:[]});
+        }
+
+        res.status(201).json({success:true,data:rows});
+    } catch(err) {
+        return res.status(500).json({success:false,data:`Error: ${err.message}`})
+    }
+}
+
+const updateStatusOrder = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if(!id) {
+            return res.status(400).json({success:false,data:"ID is required."});
+        }
+
+        const { status } = req.body;
+
+        const result = await run(`
+            UPDATE orders
+            SET
+                status = COALESCE(?, status)
+            WHERE id = ?    
+        `, [status, id]);
+        
+        res.status(201).json({success:true,data:`Order no.${result.lastID} successfully updated.`})
+    } catch(err) {
+        return res.status(500).json({success:false,data:`Error: ${err.message}`})
+    }
+}
+
+module.exports = { 
+    placeOrder,
+    getAllOrders,
+    updateStatusOrder
+}

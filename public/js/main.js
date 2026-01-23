@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkoutCartDiv = document.querySelector('#checkout-cart');
     const placeOrderBtn = document.querySelector('#confirm-checkout');
 
+    const ordersListDiv = document.querySelector('#orders-list');
+
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     const userIndicatorEl = document.querySelector('#user-indicator');
@@ -93,6 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		} catch(err) {
 			console.error(err);
             checkoutCartDiv.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
+		}
+    }
+    async function loadOrders() {
+        try {
+            const orders = await api.getAllOrders();
+            render.renderOrders(orders, ordersListDiv);
+		} catch(err) {
+			console.error(err);
+            ordersListDiv.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
 		}
     }
 
@@ -368,10 +379,69 @@ document.addEventListener('DOMContentLoaded', () => {
                     user_id: currentUser.id
                 }
                 const result = await api.placeOrder(userId);
-                alert(result.data.message);
+                alert("Order placed successfully. Check your dashboard for the status of your order.");
                 location.href = "cart.html"
             } catch(err) {
-                alert(`Error: ${err.message}`)
+                alert(`Error: ${err.message}`);
+            }
+        })
+    }
+
+
+
+
+
+    // (ORDERS)
+    if(ordersListDiv) {
+        loadOrders();
+
+        ordersListDiv.addEventListener('click', async (e) => {
+            e.preventDefault()
+
+            if(e.target.classList.contains('edit-btn')) {
+                const row = e.target.closest('tr');
+                const order_id = row.dataset.id;
+
+                const orderStatusText = row.querySelector('#order-status-p');
+                orderStatusText.style.display = 'none';
+
+                const orderStatusEl = row.querySelector('#order-status');
+                orderStatusEl.innerHTML += `
+                    <div>
+                        <select class="status-order">
+                            <option value="PENDING">Pending</option>
+                            <option value="SHIPPED">Shipped</option>
+                            <option value="DELIVERED">Delivered</option>
+                        </select>
+                    </div>
+                `;
+                
+                const editBtn = row.querySelector('.edit-btn');
+                editBtn.style.display = 'none';
+
+                const orderActionsDiv = row.querySelector('.action-buttons');
+                orderActionsDiv.innerHTML += `
+                    <button class="cancel-update-btn">Cancel</button>
+                    <button class="save-update-btn">Save</button>
+                `;
+
+                const saveUpdateBtn = row.querySelector('.save-update-btn');
+                saveUpdateBtn.addEventListener('click', async (e) => {
+                    const newStatus = row.querySelector('.status-order').value;
+                    console.log(newStatus)
+                    const data = {
+                        status: newStatus
+                    }
+                    const result = await api.updateStatusOrder(order_id, data);
+                    alert(result);
+                    location.reload()
+                })
+
+                const cancelUpdateBtn = row.querySelector('.cancel-update-btn');
+                cancelUpdateBtn.addEventListener('click', async (e) => {
+                    location.reload();
+                })
+
             }
         })
     }

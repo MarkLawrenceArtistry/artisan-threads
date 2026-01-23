@@ -271,3 +271,32 @@ export async function placeOrder(user_id) {
 
     return result.data
 }
+// (ORDERS) Get all
+export async function getAllOrders() {
+    const response = await fetch('/api/orders');
+
+    const result = await response.json();
+    if(!result.success) {
+        throw new Error(result.data);
+    }
+
+    return result.data;
+}
+// (ORDERS) Update status in orders
+export async function updateStatusOrder(order_id, status) {
+    
+    const response = await fetch(`/api/orders/${order_id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(status)
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}
