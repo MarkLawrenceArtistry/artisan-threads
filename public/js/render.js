@@ -435,3 +435,75 @@ export function renderOrdersCustomers(orders, container) {
 
     container.appendChild(table)
 }
+
+
+
+
+
+// DASHBOARD
+export function renderOrderStatusChart(orders, container) {
+    container.innerHTML = ``;
+
+    let pending = [];
+    let shipped = [];
+    let delivered = [];
+
+    orders.forEach(order => {
+        if(order.status === 'PENDING') {
+            pending.push(order);
+        } else if(order.status === 'SHIPPED') {
+            shipped.push(order);
+        } else if(order.status === 'DELIVERED') {
+            delivered.push(order);
+        }
+    });
+
+    new Chart(container, {
+        type: 'bar',
+        data: {
+        labels: ['Pending Orders', 'Shipped Orders', 'Delivered Orders'],
+        datasets: [{
+            label: 'Number of orders, based on status',
+            data: [pending.length, shipped.length, delivered.length],
+            borderWidth: 1
+        }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+export function renderAnalytics(kpi, container) {
+    container.innerHTML = ``;
+
+
+    container.innerHTML = `
+        <div class="kpi-card">
+            <img src="">
+            <div>
+                <p>Total Sales</p>
+                <h1>₱${kpi[0].totalSales}</h1>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <img src="">
+            <div>
+                <p>Total Orders</p>
+                <h1>${kpi[0].totalOrders}</h1>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <img src="">
+            <div>
+                <p>Total Users</p>
+                <h1>${kpi[0].totalUsers}</h1>
+            </div>
+        </div>
+    `;
+}

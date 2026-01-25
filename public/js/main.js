@@ -4,31 +4,40 @@ import * as render from './render.js'
 document.addEventListener('DOMContentLoaded', () => {
 
 	// CONSTANTS
+    // (AUTH)
 	const registerForm = document.querySelector('#register-form');
 	const loginForm = document.querySelector('#login-form');
     const logoutBtn = document.querySelector('#logout-button');
 	
+    // (PRODUCTS)
     const productsListDiv = document.querySelector('#products-list');
     const productForm = document.querySelector('#product-form');
     const createProductBtn = document.querySelector('#create-product-btn');
     const cancelProductBtn = document.querySelector('#cancel-product-btn');
 
+    // (AUTH) ACCOUNTS EVENT LISTENERS
     const usersListDiv = document.querySelector('#users-list');
     const userForm = document.querySelector('#user-form');
     const createUserBtn = document.querySelector('#create-btn');
     const cancelUserBtn = document.querySelector('#cancel-btn');
 
+    // (SHOP)
     const shopListDiv = document.querySelector('#shop-list');
     
+    // (CART)
     const cartListDiv = document.querySelector('#cart-list');
-
     const checkoutCartDiv = document.querySelector('#checkout-cart');
     const placeOrderBtn = document.querySelector('#confirm-checkout');
 
+    // (ORDERS)
     const ordersListDiv = document.querySelector('#orders-list');
-
     const ordersListCustomerDiv = document.querySelector('#orders-list-customer');
 
+    // (DASHBOARD)
+    const orderStatusChart = document.querySelector('#order-status-chart')
+    const kpiWrapper = document.querySelector('#kpi-wrapper')
+
+    // (OTHERS)
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     const userIndicatorEl = document.querySelector('#user-indicator');
@@ -122,6 +131,24 @@ document.addEventListener('DOMContentLoaded', () => {
 		} catch(err) {
 			console.error(err);
             ordersListCustomerDiv.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
+		}
+    }
+    async function loadOrderStatusChart() {
+        try {
+            const orders = await api.getAllOrders();
+            render.renderOrderStatusChart(orders, orderStatusChart);
+		} catch(err) {
+			console.error(err);
+            orderStatusChart.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
+		}
+    }
+    async function loadKpi() {
+        try {
+            const kpi = await api.getAnalytics();
+            render.renderAnalytics(kpi, kpiWrapper);
+		} catch(err) {
+			console.error(err);
+            kpiWrapper.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
 		}
     }
 
@@ -470,6 +497,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // (ORDERS) CUSTOMER
     if(ordersListCustomerDiv) {
         loadOrdersCustomers();
+    }
+
+
+
+
+    // (DASHBOARD) Display Orders by Status
+    if(orderStatusChart) {
+        loadOrderStatusChart();
+        loadKpi();
     }
 
 

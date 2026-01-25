@@ -311,3 +311,18 @@ export async function getAllOrdersOneCustomer(user_id) {
 
     return result.data;
 }
+
+
+
+
+
+// (DASHBOARD)
+export async function getAnalytics() {
+    const response = await fetch("/api/dashboard/analytics");
+    const result = await response.json();
+    if(!result.success) {
+        throw new Error(result.data);
+    }
+
+    return result.data;
+}

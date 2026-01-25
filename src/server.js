@@ -11,6 +11,7 @@ const authRoutes = require('./routes/auth.js')
 const productRoutes = require('./routes/products.js')
 const cartRoutes = require('./routes/cart_items.js')
 const orderRoutes = require('./routes/orders.js')
+const dashboardRoutes = require('./routes/dashboard.js')
 
 // Middlewares
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/cart_items', cartRoutes)
 app.use('/api/orders', orderRoutes)
+app.use('/api/dashboard', dashboardRoutes)
 
 initDB();
 
