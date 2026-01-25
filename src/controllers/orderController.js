@@ -128,8 +128,42 @@ const updateStatusOrder = async (req, res) => {
     }
 }
 
+const getAllOrdersOneCustomer = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const rows = await all(`
+            SELECT
+                oi.id as order_item_id,
+                oi.quantity,
+                p.id as product_id,
+                p.name,
+                p.price,
+                p.image_url,
+                o.id as order_id,
+                o.total_amount,
+                o.status,
+                o.created_at
+            FROM order_items oi
+            JOIN 
+                products p ON oi.product_id = p.id
+            JOIN
+                orders o ON oi.order_id = o.id
+            WHERE o.user_id = ?
+        `, [id]);
+
+        if(!rows) {
+            return res.status(201).json({success:true,data:[]});
+        }
+
+        res.status(201).json({success:true,data:rows});
+    } catch(err) {
+        return res.status(500).json({success:false,data:`Error: ${err.message}`})
+    }
+}
+
 module.exports = { 
     placeOrder,
     getAllOrders,
-    updateStatusOrder
+    updateStatusOrder,
+    getAllOrdersOneCustomer
 }

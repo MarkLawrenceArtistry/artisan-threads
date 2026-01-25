@@ -300,3 +300,14 @@ export async function updateStatusOrder(order_id, status) {
 
     return result.data
 }
+// (ORDERS) Get all orders from one customer
+export async function getAllOrdersOneCustomer(user_id) {
+    const response = await fetch(`/api/orders/${user_id}`);
+
+    const result = await response.json();
+    if(!result.success) {
+        throw new Error(result.data);
+    }
+
+    return result.data;
+}

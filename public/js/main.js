@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const ordersListDiv = document.querySelector('#orders-list');
 
+    const ordersListCustomerDiv = document.querySelector('#orders-list-customer');
+
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     const userIndicatorEl = document.querySelector('#user-indicator');
@@ -104,6 +106,22 @@ document.addEventListener('DOMContentLoaded', () => {
 		} catch(err) {
 			console.error(err);
             ordersListDiv.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
+		}
+    }
+    async function loadOrdersCustomers() {
+        try {
+			const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+            if(!currentUser) {
+                ordersListCustomerDiv.innerHTML = `<p>You must be <a href="login.html">logged in</a> first.</p>`;
+                return;
+            }
+
+            const orders = await api.getAllOrdersOneCustomer(currentUser.id);
+            render.renderOrdersCustomers(orders, ordersListCustomerDiv);
+		} catch(err) {
+			console.error(err);
+            ordersListCustomerDiv.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
 		}
     }
 
@@ -444,6 +462,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             }
         })
+    }
+
+
+
+
+    // (ORDERS) CUSTOMER
+    if(ordersListCustomerDiv) {
+        loadOrdersCustomers();
     }
 
 

@@ -124,7 +124,6 @@ const getCart = async (req, res) => {
             JOIN products p
             ON ci.product_id = p.id
             WHERE ci.user_id = ?
-
         `
         const params = [id];
 
