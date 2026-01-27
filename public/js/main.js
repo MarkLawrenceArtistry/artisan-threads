@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     const userIndicatorEl = document.querySelector('#user-indicator');
+    const formWrapper = document.querySelector('.form-wrapper');
 
     // UTILITIES
     if(menuToggle) {
@@ -168,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(e.target.classList.contains('edit-btn')) {
                 productForm.reset();
                 productForm.style.display = "block"
+                formWrapper.style.display = "flex"
                 cancelProductBtn.style.display = "block"
                 productForm.querySelector('#product-image').style.display = "block"
 
@@ -237,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
         createProductBtn.addEventListener('click', (e) => {
             e.preventDefault()
             productForm.reset();
+            formWrapper.style.display = "flex"
             productForm.style.display = "block"
             cancelProductBtn.style.display = "block"
             productForm.querySelector('.form-title').innerText = "Create user"
@@ -247,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault()
             productForm.reset();
             productForm.style.display = "none"
+            formWrapper.style.display = "none"
             cancelProductBtn.style.display = "none"
             productForm.querySelector('#product-image').style.display = "none"
         })
@@ -541,6 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
         createUserBtn.addEventListener('click', (e) => {
             e.preventDefault()
             userForm.reset();
+            formWrapper.style.display = "flex"
             userForm.style.display = "block"
             cancelUserBtn.style.display = "block"
             userForm.querySelector('.form-title').innerText = "Create user"
@@ -551,6 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault()
             userForm.reset();
             userForm.style.display = "none"
+            formWrapper.style.display = "none"
             cancelUserBtn.style.display = "none"
         })
     }
@@ -591,6 +597,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(e.target.classList.contains('edit-btn')) {
                 userForm.reset();
                 userForm.style.display = "block"
+                formWrapper.style.display = "flex"
                 cancelUserBtn.style.display = "block"
 
                 const user = await api.getUser(user_id)

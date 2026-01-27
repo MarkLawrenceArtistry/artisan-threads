@@ -1,45 +1,49 @@
 :root {
-    --dark-text: #332d2f;
+    --dark-text: #2c3c50;
     --medium-text: #a0a0a0;
     --light-text: #f1f4f9;
-    --accent-color: #ee3154;
-    --accent-color-hover: #d02e4b;
+    --accent-color: #2c3c50;
+    --accent-color-hover: #b0bece;
     --secondary-accent-color: #6c757d;
     --secondary-accent-color-hover: #565c62;
     --header-height: 70px;
 }
 @font-face {
-    font-family: 'Circular';
-    src: url('resources/fonts/CircularStd-Medium.otf');
+    font-family: 'Montserrat Regular';
+    src: url('resources/fonts/Montserrat-Regular.ttf');
 }
 @font-face {
-    font-family: 'Zuume';
-    src: url('resources/fonts/Zuume-Bold.ttf');
+    font-family: 'Montserrat Extrabold';
+    src: url('resources/fonts/Montserrat-ExtraBold.ttf');
 }
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* border: 1px solid red; */
+    border: 1px solid red;
 }
 html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height);
 }
 body {
-    font-family: 'Circular';
-    background-color: #f1f4f9;
+    font-family: 'Montserrat Regular';
+    background-color: #fff;
     color: var(--dark-text);
 }
 .container {
     display: flex;
     min-height: 100vh;
 }
-h1, h2 { font-family: 'Zuume'; }
+.content-main {
+    display: flex;
+    gap: 10px;
+}
+h1, h2 { font-family: 'Montserrat Extrabold'; }
 p { color: var(--dark-text); }
 a { text-decoration: none; }
 a:hover { text-decoration: underline; }
-input { padding: 10px; font: 'Circular'; border-radius: 5px; border: 1px solid var(--medium-text); }
+input { padding: 10px; font: 'Montserrat Regular'; border-radius: 5px; border: 1px solid var(--medium-text); }
 
 
 
@@ -51,7 +55,7 @@ input { padding: 10px; font: 'Circular'; border-radius: 5px; border: 1px solid v
     padding: 5px 15px;
 }
 header {
-    height: 70px;
+    height: 90px;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -124,6 +128,7 @@ header {
     padding: 15px;
     gap: 2rem;
     border: 1px solid var(--accent-color);
+    background-color: #f1f4f9;
 }
 .sidebar-content {
     display: flex;
@@ -138,8 +143,9 @@ header {
     gap: 1rem;
     border: 1px solid var(--dark-text);
     color: var(--dark-color);
+    transition: all ease 0.2s;
 }
-.nav-item:hover { border: 1px solid var(--accent-color); text-decoration: none; color: var(--accent-color); }
+.nav-item:hover { border: 1px solid var(--accent-color-hover); text-decoration: none; color: var(--accent-color-hover); }
 .content {
     flex-grow: 1;
     padding: 15px;
@@ -153,6 +159,11 @@ header {
 .sidebar-footer button:hover {
     background-color: gray;
     color: white;
+}
+.sidebar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -345,15 +356,19 @@ button {
     color: var(--light-text);
     border-radius: 5px;
     border: none;
+    font-family: 'Montserrat Regular';
 }
-/* button:hover {
-    background-color: var(--accent-color-hover);
-} */
+input { font-family: 'Montserrat Regular'; }
 table {
     margin-top: 20px;
     border-collapse: collapse;
     width: 100%;
 }
+table button {
+    padding: 10px;
+    transition: all ease 0.2s;
+}
+table button:hover { background-color: var(--accent-color-hover); }
 td, th {
     border: 1px solid var(--medium-text);
     padding: 8px;
@@ -380,6 +395,53 @@ th {
 }
 .max-view {
     min-height: 88vh;
+}
+.logo {
+    max-height: 50px;
+}
+.title-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.title-wrapper button {
+    padding: 10px;
+}
+.table-wrapper {
+    flex-grow: 2;
+}
+
+
+
+
+
+.form-wrapper {
+    flex-grow: 1;
+    display: none;
+    background-color: #f1f4f9;
+    padding: 20px 10px;
+    border: none;
+    border-radius: 10px;
+    flex-direction: column;
+}
+.form-wrapper button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+}
+.form-item {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
+}
+.form-item img {
+    height: 100%;
+}
+.table-img {
+    height: 100px;
+}
+select {
+    padding: 10px;
+    font-family: 'Montserrat Regular';
 }
 
 

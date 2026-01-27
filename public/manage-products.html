@@ -10,7 +10,7 @@
     <div class="container">
         <div class="sidebar">
             <div class="sidebar-header">
-                <h2>Artisan Threads</h2>
+                <a href="index.html"><img src="resources/logo/logo.png" class="logo"></a>
             </div>
 
             <div class="sidebar-content">
@@ -43,9 +43,15 @@
 
         <div class="content">
             <div class="content-header">
-                <h1>Manage Products</h1>
+                <div class="title-wrapper">
+                    <h1>Manage Products</h1>
+                    <button id="create-product-btn">Create product</button>
+                </div>
+                
+            </div>
 
-                <button id="create-product-btn">Create product</button>
+            <div class="content-main">
+                <div id="products-list" class="table-wrapper"></div>
                 <div class="form-wrapper">
                     <form id="product-form">
                         <h3 class="form-title">Create product</h3>
@@ -80,10 +86,6 @@
                         <button type="button" id="cancel-product-btn">Cancel</button>
                     </form>
                 </div>
-            </div>
-
-            <div class="content-main">
-                <div id="products-list"></div>
             </div>
             
             <div class="content-footer">

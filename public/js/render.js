@@ -33,7 +33,7 @@ export function renderProductsTable(products, container) {
             <td>${element.price}</td>
             <td>${element.stock_quantity}</td>
             <td>
-                <img src=${element.image_url} style="height: 100px;">
+                <img src=${element.image_url} class="table-img">
             </td>
             <td>
                 <div class="action-buttons">
@@ -190,7 +190,7 @@ export function renderCart(cart, container) {
             <td>
                 <div class="cart-info">
                     <div class="cart-image">
-                        <img src="${element.image_url}" alt="${element.name}">
+                        <img src="${element.image_url}" alt="${element.name}" class="table-img">
                     </div>
                     
                     <div class="cart-name">
@@ -357,22 +357,19 @@ export function renderOrders(orders, container) {
 export function renderOrdersCustomers(orders, container) {
     container.innerHTML = ``;
 
-    // 1. GROUP THE DATA BY ORDER ID
     const groupedOrders = {};
 
     orders.forEach(item => {
-        // If this order hasn't been seen yet, initialize it
         if (!groupedOrders[item.order_id]) {
             groupedOrders[item.order_id] = {
                 order_id: item.order_id,
                 total_amount: item.total_amount,
                 status: item.status,
                 created_at: item.created_at,
-                products: [] // Create an array to hold the products
+                products: []
             };
         }
         
-        // Push the product details into the 'products' array for this order
         groupedOrders[item.order_id].products.push({
             name: item.name,
             image_url: item.image_url,
@@ -380,7 +377,6 @@ export function renderOrdersCustomers(orders, container) {
         });
     });
 
-    // 2. RENDER THE TABLE
     const table = document.createElement('table');
     table.className = 'orders table';
     table.innerHTML = `
@@ -398,14 +394,11 @@ export function renderOrdersCustomers(orders, container) {
 
     const tbody = table.querySelector('tbody');
 
-    // Iterate through the UNIQUE orders
     Object.values(groupedOrders).forEach(order => {
         const row = document.createElement('tr');
         row.dataset.id = order.order_id;
-        row.className = 'order-item'; // Fixed: use className, not classname
+        row.className = 'order-item';
 
-        // Generate HTML for all products in this order
-        // This maps through the products array we created above
         const productsHtml = order.products.map(p => `
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
                 <img src="${p.image_url}" alt="${p.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
