@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // (SHOP)
     const shopListDiv = document.querySelector('#shop-list');
+    const searchProductBtn = document.querySelector('#search-product');
+    const itemDetailDiv = document.querySelector('#item-detail');
+    const cancelProductCartBtn = document.querySelector('#cancel-product-cart');
+    const addProductCartBtn = document.querySelector('#add-product-cart');
     
     // (CART)
     const cartListDiv = document.querySelector('#cart-list');
@@ -70,9 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			console.error(err)
 		}
     }
-    async function loadShop() {
+    async function loadShop(searchTerm = '') {
         try {
-			const result = await api.getAllProducts()
+			const result = await api.getAllProducts(searchTerm)
 			render.renderShopItems(result, shopListDiv)
 		} catch(err) {
 			console.error(err)
@@ -259,7 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // (SHOP)
-    const itemDetailDiv = document.querySelector('#item-detail');
     if(shopListDiv) {
         loadShop();
 
@@ -309,14 +312,12 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
     }
-    const cancelProductCartBtn = document.querySelector('#cancel-product-cart');
     if(cancelProductCartBtn) {
         cancelProductCartBtn.addEventListener('click', (e) => {
             localStorage.removeItem('currentProduct');
             location.href = "shop.html";
         })
     }
-    const addProductCartBtn = document.querySelector('#add-product-cart');
     if(addProductCartBtn) {
         const currentProduct = JSON.parse(localStorage.getItem('currentProduct'));
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -347,6 +348,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 location.href = 'shop.html'
             } catch(err) {
                 alert(`Error: ${err.message}`);
+            }
+        })
+    }
+    if(searchProductBtn) {
+        loadShop();
+
+        searchProductBtn.addEventListener('click', (e) => {
+            const value = document.querySelector('#shop-search').value.trim();
+            loadShop(value);
+        })
+
+        document.querySelector('#shop-search').addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') {
+                searchProductBtn.click();
             }
         })
     }

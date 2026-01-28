@@ -1,4 +1,5 @@
-const { db } = require('../database')
+const { db } = require('../database');
+const { run, all, get } = require('../utils/helper')
 
 const createProduct = (req, res) => {
     const { name, description, price, stock_quantity } = req.body
@@ -56,11 +57,20 @@ const getProduct = (req, res) => {
     })
 }
 
-const getAllProduct = (req, res) => {
-    const query = `
+const getAllProduct = async (req, res) => {
+    const { searchTerm } = req.query;
+
+    let query = `
         SELECT * FROM products
-    `
-    db.all(query, [], (err, rows) => {
+    `;
+    let params = [];
+
+    if(searchTerm) {
+        query += `WHERE name LIKE ? OR description LIKE ?`;
+        params.push(`%${searchTerm}%`, `%${searchTerm}%`);
+    }
+
+    db.all(query, params, (err, rows) => {
         if(err) {
             return res.status(500).json({success:false,data:err.message})
         } else {

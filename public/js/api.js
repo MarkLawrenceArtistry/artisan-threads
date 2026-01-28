@@ -104,8 +104,13 @@ export async function deleteUser(id) {
 
 
 // (PRODUCTS) Get all products
-export async function getAllProducts() {
-    const response = await fetch('/api/products', {
+export async function getAllProducts(searchTerm = '') {
+    let url = '/api/products';
+    if(searchTerm) {
+        url += `?searchTerm=${encodeURIComponent(searchTerm)}`
+    }
+
+    const response = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'

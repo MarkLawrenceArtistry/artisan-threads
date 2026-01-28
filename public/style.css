@@ -454,6 +454,11 @@ select {
     padding: 10px;
     font-family: 'Montserrat Regular';
 }
+#search-product {
+    padding: 10px;
+    transition: all ease 0.2s;
+}
+#search-product:hover { background-color: var(--accent-color-hover); }
 
 
 
