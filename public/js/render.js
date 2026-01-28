@@ -24,7 +24,7 @@ export function renderProductsTable(products, container) {
     products.forEach(element => {
         const row = document.createElement('tr')
         row.dataset.id = element.id
-        row.classname = 'product-item'
+        row.className = 'product-item'
 
         row.innerHTML = `
             <td>${element.id}</td>
@@ -79,7 +79,7 @@ export function renderUsersTable(users, container) {
     users.forEach(element => {
         const row = document.createElement('tr')
         row.dataset.id = element.id
-        row.classname = 'user-item'
+        row.className = 'user-item'
 
         row.innerHTML = `
             <td>${element.id}</td>
@@ -181,7 +181,7 @@ export function renderCart(cart, container) {
     cart.forEach(element => {
         const row = document.createElement('tr')
         row.dataset.id = element.cart_item_id
-        row.classname = 'cart-item'
+        row.className = 'cart-item'
 
         const itemTotal = element.price * element.quantity;
         total += itemTotal;
@@ -263,7 +263,7 @@ export function renderCheckoutCart(cart, container) {
     cart.forEach(element => {
         const row = document.createElement('tr')
         row.dataset.id = element.cart_item_id
-        row.classname = 'cart-item'
+        row.className = 'cart-item'
 
         const itemTotal = element.price * element.quantity;
         total += itemTotal;
@@ -301,7 +301,7 @@ export function renderCheckoutCart(cart, container) {
 
 
 // ORDERS
-export function renderOrders(orders, container) {
+export function renderOrders(orders, container, filterWord) {
     container.innerHTML = ``;
 
     const table = document.createElement('table')
@@ -311,7 +311,7 @@ export function renderOrders(orders, container) {
             <tr>
                 <th>ID</th>
                 <th>Customer Name</th>
-                <th>Total Amout</th>
+                <th>Total Amount</th>
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
@@ -323,7 +323,7 @@ export function renderOrders(orders, container) {
     orders.forEach(element => {
         const row = document.createElement('tr')
         row.dataset.id = element.id
-        row.classname = 'order-item'
+        row.className = 'order-item'
 
         row.innerHTML = `
             <td>${element.id}</td>
@@ -337,8 +337,19 @@ export function renderOrders(orders, container) {
                 </div>
             </td>
         `;
+        
+        let skip = false;
+        if(filterWord) {
+            if(element.status === filterWord) {
+                tbody.appendChild(row)
+            } else {
+                skip = true;
+            }
+        } else {
+            tbody.appendChild(row)
+        }
 
-        tbody.appendChild(row)
+        if(skip) return;
     });
     if(orders.length < 1) {
         tbody.innerHTML = `

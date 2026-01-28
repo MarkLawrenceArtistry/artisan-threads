@@ -20,7 +20,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 html {
     scroll-behavior: smooth;
@@ -34,6 +34,9 @@ body {
 .container {
     display: flex;
     min-height: 100vh;
+}
+.content-header {
+    margin-bottom: 10px;
 }
 .content-main {
     display: flex;
@@ -129,6 +132,7 @@ header {
     gap: 2rem;
     border: 1px solid var(--accent-color);
     background-color: #f1f4f9;
+    max-height: 100vh;
 }
 .sidebar-content {
     display: flex;
@@ -408,6 +412,7 @@ th {
 }
 .table-wrapper {
     flex-grow: 2;
+    overflow-y: auto;
 }
 
 
@@ -418,10 +423,12 @@ th {
     flex-grow: 1;
     display: none;
     background-color: #f1f4f9;
-    padding: 20px 10px;
+    padding: 20px;
     border: none;
     border-radius: 10px;
     flex-direction: column;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 .form-wrapper button {
     width: 100%;
@@ -434,7 +441,11 @@ th {
     margin: 5px 0;
 }
 .form-item img {
-    height: 100%;
+    object-fit: contain;
+    width: auto;
+    height: 100px;
+    margin-top: 10px;
+    max-width: 100%;
 }
 .table-img {
     height: 100px;

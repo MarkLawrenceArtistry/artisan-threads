@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // (ORDERS)
     const ordersListDiv = document.querySelector('#orders-list');
     const ordersListCustomerDiv = document.querySelector('#orders-list-customer');
+    const ordersFilter = document.querySelector('#orders-filter')
 
     // (DASHBOARD)
     const orderStatusChart = document.querySelector('#order-status-chart')
@@ -109,10 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
             checkoutCartDiv.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
 		}
     }
-    async function loadOrders() {
+    async function loadOrders(filterWord) {
         try {
             const orders = await api.getAllOrders();
-            render.renderOrders(orders, ordersListDiv);
+            render.renderOrders(orders, ordersListDiv, filterWord);
 		} catch(err) {
 			console.error(err);
             ordersListDiv.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
@@ -188,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(confirm("Are you sure you want to delete this product?")) {
                     try {
                         await api.deleteProduct(product_id)
-                        location.reload()
+                        loadProducts();
                     } catch(err) {
                         alert(`Error: ${err.message}`)
                     }
@@ -224,15 +225,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const id = productForm.querySelector('#product-id').value
             if(id) {
                 await api.updateProduct(formData, id)
-                alert('Product updated successfully!')
+                alert('Product updated successfully!');
             } else {
                 await api.createProduct(formData)
-                alert('Product created successfully!')
+                alert('Product created successfully!');
             }
             
-
-            location.reload()
-            
+            loadProducts();
         })
     }
     if(createProductBtn) {
@@ -243,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
             productForm.style.display = "block"
             cancelProductBtn.style.display = "block"
             productForm.querySelector('.form-title').innerText = "Create user"
+            productForm.querySelector('#product-image').src = ""
         })
     }
     if(cancelProductBtn) {
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if(confirm("Are you sure you want to remove the product from your cart?")) {
                     await api.removeItem(cart_id);
-                    location.reload();
+                    loadCart();
                     alert('Item removed successfully.')
                 }
             }
@@ -398,12 +398,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     await api.updateItemQuantity(cart_id, data);
                     alert("Updated the item quantity successfully.");
-                    location.reload();
+                    loadCart();
                 })
 
                 const cancelUpdateBtn = row.querySelector('.cancel-update-btn');
                 cancelUpdateBtn.addEventListener('click', async (e) => {
-                    location.reload();
+                    loadCart();
                 })
             }
 
@@ -483,15 +483,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     const result = await api.updateStatusOrder(order_id, data);
                     alert(result);
-                    location.reload()
+                    loadOrders();
                 })
 
                 const cancelUpdateBtn = row.querySelector('.cancel-update-btn');
                 cancelUpdateBtn.addEventListener('click', async (e) => {
-                    location.reload();
+                    loadOrders();
                 })
 
             }
+        })
+    }
+    if(ordersFilter) {
+        ordersFilter.addEventListener('change', async () => {
+            loadOrders(ordersFilter.value)
         })
     }
 
@@ -568,7 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: userForm.querySelector('#user-name').value.trim() || null,
                 email: userForm.querySelector('#user-email').value.trim() || null, 
                 password: userForm.querySelector('#user-password').value.trim() || null,
-                role: userForm.querySelector('#user-role').value.trim() || null
+                role: userForm.querySelector('#user-role').value || null
             }
 
             const id = userForm.querySelector('#user-id').value
@@ -580,7 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert("User created successfully!")
             }
 
-            location.reload()
+            loadUsers();
         })
     }
 
@@ -614,7 +619,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(confirm("Are you sure you want to delete this account?")) {
                     try {
                         await api.deleteUser(user_id)
-                        location.reload()
+                        loadUsers();
                     } catch(err) {
                         alert(`Error: ${err.message}`)
                     }

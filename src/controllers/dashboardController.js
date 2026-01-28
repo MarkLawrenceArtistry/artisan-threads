@@ -8,7 +8,7 @@ const getAnalytics = async (req, res) => {
     try {
         const result = await all(`
             SELECT
-                (SELECT SUM(total_amount) FROM orders) AS totalSales,
+                (SELECT SUM(total_amount) FROM orders WHERE status = 'DELIVERED') AS totalSales,
                 (SELECT COUNT(*) FROM orders) AS totalOrders,
                 (SELECT COUNT(*) FROM users) AS totalUsers;
         `);
