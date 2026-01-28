@@ -98,6 +98,23 @@ export async function deleteUser(id) {
 
     return result.data
 }
+// (AUTH) Admin change password
+export async function adminChangePassword(data, id) {
+    const response = await fetch(`/api/auth/password/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}
 
 
 

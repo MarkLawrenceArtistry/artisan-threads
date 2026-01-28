@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelector('.nav-links');
     const userIndicatorEl = document.querySelector('#user-indicator');
     const formWrapper = document.querySelector('.form-wrapper');
+    const adminChangePasswordForm = document.querySelector('#admin-change-password');
 
     // UTILITIES
     if(menuToggle) {
@@ -642,7 +643,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
     }
-
     // (AUTH) LOGIN
     if(loginForm) {
 		loginForm.addEventListener('submit', async (e) => {
@@ -670,7 +670,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			} 
 		})
 	}
-
     if(userIndicatorEl) {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if(!currentUser) {
@@ -683,7 +682,6 @@ document.addEventListener('DOMContentLoaded', () => {
             userIndicatorEl.addEventListener('click', (e) => {location.href = 'dashboard.html'})
         }
     }
-
     // (AUTH) LOGOUT
     if(logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
@@ -695,6 +693,44 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
     }
+    // (AUTH) ADMIN CHANGE PASSWORD
+    if(adminChangePasswordForm) {
+        adminChangePasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            let oldPasswordInput = adminChangePasswordForm.querySelector('#current-password').value.trim();
+            let newPasswordInput = adminChangePasswordForm.querySelector('#new-password').value.trim();
+
+            if(!oldPasswordInput || !newPasswordInput) {
+                alert('All fields required.');
+                return;
+            }
+
+            try {
+                let user = JSON.parse(localStorage.getItem('currentUser'));
+
+                const data = {
+                    oldPassword: oldPasswordInput,
+                    newPassword: newPasswordInput
+                }
+
+				await api.adminChangePassword(data, user.id);
+				alert('Changed password successfully!');
+				
+				adminChangePasswordForm.reset();
+			}
+			catch(err) {
+				alert(`Error: ${err.message}`)
+			}
+        })
+    }
+
+
+
+
+
+
+
 
     // (AUTH) GATEKEEPER FUNCTION/SESSION CHECKER
     if(!(window.location.pathname.endsWith('index.html') || 

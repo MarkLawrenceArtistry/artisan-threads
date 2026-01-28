@@ -459,7 +459,10 @@ select {
     transition: all ease 0.2s;
 }
 #search-product:hover { background-color: var(--accent-color-hover); }
-
+.change-password-form-wrapper, .change-password-form-wrapper button {
+    width: 100%;
+}
+.change-password-form-wrapper button { padding: 10px; }
 
 
 

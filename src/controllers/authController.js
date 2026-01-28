@@ -136,6 +136,39 @@ const updateUser = async (req, res) => {
     }
 }
 
+const adminChangePassword = async (req, res) => {
+    try {
+        const { id } = req.params
+        let { oldPassword, newPassword } = req.body
+
+        const row = await get(`
+            SELECT password_hash FROM users WHERE id = ?
+        `, [id]);
+
+        const isMatch = await bcrypt.compare(oldPassword, row.password_hash)
+        if(!isMatch) {
+            return res.status(400).json({success:false,data:"Old password is not correct."})
+        }
+
+        if (!newPassword) {
+            return res.status(400).json({ success: false, data: "New password is required." });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+        await run(`
+            UPDATE users
+            SET password_hash = ?
+            WHERE id = ?
+        `, [hashedNewPassword, id])
+
+        return res.status(201).json({success:true,data:`Password updated successfully!`})
+    } catch(err) {
+        return res.status(500).json({success:false,data:`Internal Server Error: ${err.message}`})
+    }
+}
+
 const deleteUser = async (req, res) => {
     try {
         const { id } = req.params
@@ -147,4 +180,4 @@ const deleteUser = async (req, res) => {
     }
 }
 
-module.exports = { register, login, getAllUsers, getUser, updateUser, deleteUser }
+module.exports = { register, login, getAllUsers, getUser, updateUser, adminChangePassword, deleteUser }
