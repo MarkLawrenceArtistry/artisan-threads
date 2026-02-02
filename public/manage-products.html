@@ -15,23 +15,23 @@
 
             <div class="sidebar-content">
                 <a class="nav-item" href="admin-dashboard.html">
-                    <img src="../">
+                    <img src="./resources/images/dashboard.png">
                     <label>Dashboard</label>
                 </a>
                 <a class="nav-item" href="manage-users.html">
-                    <img src="../">
+                    <img src="./resources/images/group.png">
                     <label>Manage Users</label>
                 </a>
                 <a class="nav-item" href="manage-orders.html">
-                    <img src="../">
+                    <img src="./resources/images/shopping-cart.png">
                     <label>Manage Orders</label>
                 </a>
                 <a class="nav-item" href="manage-products.html">
-                    <img src="../">
+                    <img src="./resources/images/t-shirt.png">
                     <label>Manage Products</label>
                 </a>
                 <a class="nav-item" href="admin-settings.html">
-                    <img src="../">
+                    <img src="./resources/images/settings.png">
                     <label>Settings</label>
                 </a>
             </div>
@@ -73,7 +73,7 @@
 
                         <div class="form-item">
                             <label>Current Stock</label>
-                            <input type="number" id="product-stock_quantity" placeholder="Enter product stock_quantity...">
+                            <input type="number" id="product-stock_quantity" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Enter product stock_quantity...">
                         </div>
 
                         <div class="form-item img-item">

@@ -122,20 +122,20 @@ export function renderShopItems(products, container) {
         card.classList.add('shop-item')
 
         card.innerHTML = `
-            <div class="product-image-container">
-                <img src="${element.image_url}" alt="${element.name}" class="product-image">
+            <div class="shop-item-image-container">
+                <img src="${element.image_url}" alt="${element.name}" class="shop-item-image">
             </div>
             
-            <div class="product-info">
-                <h3 class="product-title">${element.name}</h3>
-                <p class="product-desc">${element.description}</p>
-                <div class="product-meta">
-                    <span class="product-price">₱${element.price}</span>
-                    <span class="product-stock">Stock: ${element.stock_quantity}</span>
+            <div class="shop-item-info">
+                <h3 class="shop-item-title">${element.name}</h3>
+                <p class="shop-item-desc">${element.description}</p>
+                <div class="shop-item-meta">
+                    <span class="shop-item-price">₱${element.price}</span>
+                    <span class="shop-item-stock">Stock: ${element.stock_quantity}</span>
                 </div>
             </div>
 
-            <div class="product-actions">
+            <div class="shop-item-actions">
                 <button class="add-to-cart-btn" data-id="${element.id}">Add to Cart</button>
             </div>
         `;
@@ -218,7 +218,9 @@ export function renderCart(cart, container) {
 
     const summaryHtml = `
         <div class="cart-summary">
-            <h3>Total: ₱${total.toFixed(2)}</h3>
+            <p>Total</p>
+            <h3 class="cart-price-title">₱${total.toFixed(2)}</h3>
+            <p class="cart-price-desc">Lorem ipsum dolor sit amet consectetum.</p>
             <button class="checkout-btn">Proceed to Checkout</button>
         </div>
     `;
@@ -290,7 +292,9 @@ export function renderCheckoutCart(cart, container) {
 
     const summaryHtml = `
         <div class="cart-summary">
-            <h3>Total: ₱${total.toFixed(2)}</h3>
+            <p>Total</p>
+            <h3 class="cart-price-title">₱${total.toFixed(2)}</h3>
+            <p class="cart-price-desc">Lorem ipsum dolor sit amet consectetum.</p>
         </div>
     `;
 
@@ -487,27 +491,59 @@ export function renderAnalytics(kpi, container) {
 
     container.innerHTML = `
         <div class="kpi-card">
-            <img src="">
-            <div>
+            <div class="kpi-img-wrapper"><img src="./resources/images/funds.png"></div>
+            <div class="kpi-info-wrapper">
                 <p>Total Sales</p>
-                <h1>₱${kpi[0].totalSales}</h1>
+                <h1>₱${kpi[0].totalSales.toFixed(2)}</h1>
             </div>
         </div>
 
         <div class="kpi-card">
-            <img src="">
-            <div>
+            <div class="kpi-img-wrapper"><img src="./resources/images/shopping-cart.png"></div>
+            <div class="kpi-info-wrapper">
                 <p>Total Orders</p>
                 <h1>${kpi[0].totalOrders}</h1>
             </div>
         </div>
 
         <div class="kpi-card">
-            <img src="">
-            <div>
+            <div class="kpi-img-wrapper"><img src="./resources/images/group.png"></div>
+            <div class="kpi-info-wrapper">
                 <p>Total Users</p>
                 <h1>${kpi[0].totalUsers}</h1>
             </div>
         </div>
     `;
+}
+
+
+
+
+
+// LANDING PAGE
+export function renderRecentProducts(products, container) {
+    container.innerHTML = '';
+
+    products.forEach(element => {
+        const card = document.createElement('div');
+        card.dataset.id = element.id
+        card.classList.add('recent-item')
+
+        card.innerHTML = `
+            <div class="shop-item-image-container">
+                <img src="${element.image_url}" alt="${element.name}" class="shop-item-image">
+            </div>
+            
+            <div class="shop-item-info">
+                <h3 class="shop-item-title">${element.name}</h3>
+                <p class="shop-item-desc">${element.description}</p>
+                <div class="shop-item-meta">
+                    <span class="shop-item-price">₱${element.price}</span>
+                    <span class="shop-item-stock">Stock: ${element.stock_quantity}</span>
+                </div>
+            </div>
+        `;
+
+        container.appendChild(card)
+    });
 }

@@ -22,7 +22,8 @@ const initDB = () => {
                 name TEXT NOT NULL,
                 email TEXT UNIQUE NOT NULL,
                 password_hash TEXT NOT NULL,
-                role TEXT DEFAULT 'customer'
+                role TEXT DEFAULT 'customer',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `;
         
@@ -33,7 +34,8 @@ const initDB = () => {
                 description TEXT,
                 price REAL NOT NULL,
                 stock_quantity INTEGER NOT NULL,
-                image_url TEXT
+                image_url TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `;
 
@@ -54,7 +56,8 @@ const initDB = () => {
                 order_id INTEGER NOT NULL,
                 product_id INTEGER NOT NULL,
                 quantity INTEGER NOT NULL,
-                price_at_purchase REAL NOT NULL, 
+                price_at_purchase REAL NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (order_id) REFERENCES orders(id),
                 FOREIGN KEY (product_id) REFERENCES products(id)
             )
@@ -66,6 +69,7 @@ const initDB = () => {
                 user_id INTEGER NOT NULL,
                 product_id INTEGER NOT NULL,
                 quantity INTEGER NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id),
                 FOREIGN KEY (product_id) REFERENCES products(id)
             )

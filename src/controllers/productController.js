@@ -79,6 +79,19 @@ const getAllProduct = async (req, res) => {
     })
 }
 
+const getRecentProducts = async (req, res) => {
+    try {
+        const result = await all(`
+            SELECT * FROM products
+            WHERE created_at BETWEEN datetime('now', '-3 days') AND datetime('now', 'localtime')
+        `);
+
+        return res.status(200).json({success:true,data:result});
+    } catch(err) {
+        return res.status(500).json({success:false,data:`Internal Server Error: ${err.message}`});
+    }
+}
+
 const updateProduct = (req, res) => {
     const { id } = req.params
     const { name, description, price, stock_quantity } = req.body
@@ -135,4 +148,4 @@ const deleteProduct = (req, res) => {
     })
 }
 
-module.exports = { createProduct, getProduct, getAllProduct, updateProduct, deleteProduct }
+module.exports = { createProduct, getProduct, getAllProduct, getRecentProducts, updateProduct, deleteProduct }

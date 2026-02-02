@@ -25,8 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const shopListDiv = document.querySelector('#shop-list');
     const searchProductBtn = document.querySelector('#search-product');
     const itemDetailDiv = document.querySelector('#item-detail');
-    const cancelProductCartBtn = document.querySelector('#cancel-product-cart');
-    const addProductCartBtn = document.querySelector('#add-product-cart');
     
     // (CART)
     const cartListDiv = document.querySelector('#cart-list');
@@ -41,6 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // (DASHBOARD)
     const orderStatusChart = document.querySelector('#order-status-chart')
     const kpiWrapper = document.querySelector('#kpi-wrapper')
+
+    // (LANDING PAGE)
+    const newArrivalDiv = document.querySelector('.featured-wrapper');
 
     // (OTHERS)
     const menuToggle = document.querySelector('.menu-toggle');
@@ -156,6 +157,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		} catch(err) {
 			console.error(err);
             kpiWrapper.innerHTML = `<p>There must be something wrong. Check your console.</p>`;
+		}
+    }
+    async function loadRecentOrders() {
+        try {
+			const result = await api.getRecentProducts()
+			render.renderRecentProducts(result, newArrivalDiv)
+		} catch(err) {
+			console.error(err)
 		}
     }
 
@@ -295,63 +304,69 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             
             <div class="product-info">
-                <h3 class="product-title">${currentProduct.name}</h3>
-                <p class="product-desc">${currentProduct.description}</p>
-                <div class="product-meta">
-                    <span class="product-price">₱${currentProduct.price}</span>
-                    <span class="product-stock">Stock: ${currentProduct.stock_quantity}</span>
-                </div>
-                <div>
-                    <label>Quantity</label>
-                    <input type="quantity" id="add-product-quantity">
-                </div>
-            </div>
+                <div class="product-info-wrapper">
+                    <h3 class="product-title">${currentProduct.name}</h3>
+                    <p class="product-desc">${currentProduct.description}</p>
+                    <div class="product-meta">
+                        <span class="product-price">₱${currentProduct.price}</span>
+                        <span class="product-stock">Stock: ${currentProduct.stock_quantity}</span>
+                    </div>
+                    <div>
+                        <label class="product-qty">Quantity</label>
+                        <input type="quantity" id="add-product-quantity" step="1" min="0" placeholder="Enter quantity...">
 
-            <div class="product-actions">
-                <button class="add-to-cart-btn" id="add-product-cart">Add to Cart</button>
-                <button id="cancel-product-cart">Cancel</button>
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" id="add-product-cart">Add to Cart</button>
+                            <button id="cancel-product-cart">Cancel</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         `;
+
+        const cancelProductCartBtn = document.querySelector('#cancel-product-cart');
+        const addProductCartBtn = document.querySelector('#add-product-cart');
+        if(cancelProductCartBtn) {
+            cancelProductCartBtn.addEventListener('click', (e) => {
+                localStorage.removeItem('currentProduct');
+                location.href = "shop.html";
+            })
+        }
+        if(addProductCartBtn) {
+            const currentProduct = JSON.parse(localStorage.getItem('currentProduct'));
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+            addProductCartBtn.addEventListener('click', async (e) => {
+                const quantity = document.querySelector('#add-product-quantity').value;
+                if(!quantity) {
+                    alert('Quantity cannot be 0.');
+                    return;
+                }
+
+                if(!currentUser) {
+                    alert('You need to be logged in first.');
+                    location.href = 'login.html';
+                    return;
+                }
+
+                const data = {
+                    user_id: currentUser.id,
+                    product_id: currentProduct.id,
+                    quantity: quantity
+                }
+
+                // api
+                try {
+                    const result = await api.addItem(data);
+                    alert("Added item to cart successfully!");
+                    location.href = 'shop.html'
+                } catch(err) {
+                    alert(`Error: ${err.message}`);
+                }
+            })
+        }
     }
-    if(cancelProductCartBtn) {
-        cancelProductCartBtn.addEventListener('click', (e) => {
-            localStorage.removeItem('currentProduct');
-            location.href = "shop.html";
-        })
-    }
-    if(addProductCartBtn) {
-        const currentProduct = JSON.parse(localStorage.getItem('currentProduct'));
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-        addProductCartBtn.addEventListener('click', async (e) => {
-            const quantity = document.querySelector('#add-product-quantity').value;
-            if(!quantity) {
-                alert('Quantity cannot be 0.');
-                return;
-            }
-
-            if(!currentUser) {
-                alert('You need to be logged in first.');
-                location.href = 'login.html';
-                return;
-            }
-
-            const data = {
-                user_id: currentUser.id,
-                product_id: currentProduct.id,
-                quantity: quantity
-            }
-
-            // api
-            try {
-                const result = await api.addItem(data);
-                alert("Added item to cart successfully!");
-                location.href = 'shop.html'
-            } catch(err) {
-                alert(`Error: ${err.message}`);
-            }
-        })
-    }
+    
     if(searchProductBtn) {
         loadShop();
 
@@ -394,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 let quantityWrapper = row.querySelector('#quantity-wrapper');
                 quantityWrapper.innerHTML = `
-                    <input type="number" id="cart-update-quantity">
+                    <input type="number" oninput="this.value = this.value.replace(/[^0-9]/g, '');" id="cart-update-quantity">
                 `;
 
                 const editBtn = row.querySelector('.edit-quantity-btn');
@@ -531,6 +546,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if(orderStatusChart) {
         loadOrderStatusChart();
         loadKpi();
+    }
+
+
+
+
+
+    // (LANDING PAGE)
+    if(newArrivalDiv) {
+        loadRecentOrders();
     }
 
 

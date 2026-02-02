@@ -115,6 +115,20 @@ export async function adminChangePassword(data, id) {
 
     return result.data
 }
+// (AUTH) Update user
+export async function updateProduct(data, id) {
+    const response = await fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        body: data
+    })
+
+    const result = await response.json()
+    if(!result.success) {
+        throw new Error(result.data)
+    }
+
+    return result.data
+}
 
 
 
@@ -187,20 +201,18 @@ export async function deleteProduct(id) {
 
     return result.data
 }
-// (AUTH) Update user
-export async function updateProduct(data, id) {
-    const response = await fetch(`/api/products/${id}`, {
-        method: 'PUT',
-        body: data
-    })
+// (PRODUCTS) Get all recent products
+export async function getRecentProducts() {
+    const response = await fetch('/api/products/recent/');
 
-    const result = await response.json()
+    const result = await response.json();
     if(!result.success) {
-        throw new Error(result.data)
+        throw new Error(result.data);
     }
 
-    return result.data
+    return result.data;
 }
+
 
 
 

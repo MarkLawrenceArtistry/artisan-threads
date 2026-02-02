@@ -18,7 +18,7 @@
                     <li><a class="active" href="index.html">Home</a></li>
                     <li><a href="shop.html">Shop</a></li>
                     <li><a href="cart.html">Cart</a></li>
-                    <li><a href="about.html">About Us</a></li>
+                    
                 </ul>
             </nav>
             <button class="menu-toggle">☰</button>
@@ -26,8 +26,68 @@
     </header>
 
     <main class="public-container">
-        <h1>Home</h1>
-        <a href="login.html">Click here to login</a>
+        <div class="section hero">
+            <div class="hero-message-area">
+                <div>
+                    <h1>Your new favorites <br> are here.</h1>
+                    <button onclick="location.href='shop.html'">Shop Now</button>
+                    <a href="login.html" style="color: var(--accent-color);">Click here to login</a>
+                </div>
+            </div>
+
+            <div class="hero-image-area">
+                <img src="./resources/images/avatar.png" alt="A male wearing stylish." class="hero-image">
+            </div>
+        </div>
+
+        <div class="section features">
+            <div class="features-header">
+                <h1 style="text-align: center;">Features</h1>
+            </div>
+
+            <div class="features-wrapper">
+                <div class="feature-card">
+                    <img src="resources/images/free-shipping.png">
+                    <p class="feature-title">Free Shipping</p>
+                    <p>Lorem ipsum dolor sit amet consectetu adipicising elit sed.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="resources/images/delivery.png">
+                    <p class="feature-title">Support 24/7</p>
+                    <p>Lorem ipsum dolor sit amet consectetu adipicising elit sed.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="resources/images/product-return.png">
+                    <p class="feature-title">Free Returns</p>
+                    <p>Lorem ipsum dolor sit amet consectetu adipicising elit sed.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section featured" style="background-color: #f1f4f9;">
+            <div class="featured-header">
+                <h1 style="text-align: center;">New Arrival</h1>
+            </div>
+
+            <div class="featured-wrapper"></div>
+        </div>
+        
+        <div class="section-footer">
+            <div class="logo-section-footer">
+                <img src="resources/logo/logo-white-bg.png" alt="">
+            </div>
+
+            <div class="links-section-footer">
+                <p class="link-title">Lorem Ipsum</p>
+                <ul>
+                    <li>Lorem Ipsum</li>
+                    <li>Lorem Ipsum</li>
+                    <li>Lorem Ipsum</li>
+                    <li>Lorem Ipsum</li>
+                </ul>
+            </div>
+
+        </div>
     </main>
 
     <script type='module' src='js/main.js'></script>
